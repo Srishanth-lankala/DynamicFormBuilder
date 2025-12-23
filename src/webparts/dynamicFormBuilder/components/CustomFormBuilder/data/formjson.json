@@ -1,0 +1,73 @@
+[
+    {
+        "id": "field_1",
+        "field_name": "Employee Name",
+        "element": "SingleLine",
+        "label": "Employee Name"
+    },
+    {
+        "id": "field_2",
+        "field_name": "Employee ID",
+        "element": "SingleLine",
+        "label": "Employee ID"
+    },
+    {
+        "id": "field_3",
+        "field_name": "Department",
+        "element": "Dropdown",
+        "label": "Department",
+        "options": [
+            {
+                "key": "Eng",
+                "text": "Engineering",
+                "value": "Engineering"
+            },
+            {
+                "key": "HR",
+                "text": "Human Resources",
+                "value": "Human Resources"
+            },
+            {
+                "key": "Mkt",
+                "text": "Marketing",
+                "value": "Marketing"
+            }
+        ]
+    },
+    {
+        "id": "field_4",
+        "field_name": "Join Date",
+        "element": "Date",
+        "label": "Join Date"
+    },
+    {
+        "id": "field_5",
+        "field_name": "Position",
+        "element": "SingleLine",
+        "label": "Position"
+    },
+    {
+        "id": "field_6",
+        "field_name": "Salary",
+        "element": "Number",
+        "label": "Salary"
+    },
+    {
+        "id": "field_7",
+        "field_name": "Table",
+        "element": "Label",
+        "content": "Table",
+        "label": "Expenses Table",
+        "columns": [
+            {
+                "headername": "Item"
+            },
+            {
+                "headername": "Cost"
+            },
+            {
+                "headername": "Date"
+            }
+        ]
+    }
+]

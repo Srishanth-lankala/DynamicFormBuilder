@@ -1,0 +1,339 @@
+.staticcard {
+    background-color: #070d19;
+ border: 1px solid #2b2d32;
+ border-radius: 4px;
+ padding: 37px;
+ width: 29%;
+ min-width: 200px;
+ display: flex;
+ flex-direction: row;
+ /* justify-content: space-around; */
+ align-items: center;
+ gap: 28px;
+ height: 90px;
+ box-shadow: 0 0 1px 2px rgba(112, 112, 112, 0.2);
+ transition: all 0.3s ease;
+}
+.card-content{
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+}
+.card-name{
+   color: white;
+   font-size: 13px;
+}
+
+/* styles.css */
+.icon-style {
+    width: 28px;
+    height: 28px;
+    color: white;
+    padding: 4px;
+}
+
+.round-icon {
+    background-color: #1A1F2E;
+    border-radius: 50%;
+    padding: 10px;
+}
+.category{
+    margin: 0px 0px 0px 39px;
+}
+.categoryItems{
+    margin: 0px 18px 35px 37px;
+}
+.SelectCategory {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 2px;
+    border-radius: 8px 8px 0px 0px;
+    height: 27px;
+
+}
+
+.SelectCategory li {
+    background-color: #161d2f;
+    border: 1px solid #161d2f;
+    color: white;
+    padding: 4px 25px;
+    /* Reduced padding to give more space for text */
+    cursor: pointer;
+    font-size: 13px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-radius: 8px 8px 0px 0px;
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+
+}
+
+/* Active/Selected Tab */
+.onSelectCategory {
+    background-color: #0e8ebe !important;
+    color: white !important;
+    border: 1px solid #0e8ebe !important;
+    border-radius: 8px 8px 0px 0px !important;
+}
+
+/* Non-selected Tabs */
+.onOtherCategory {
+    background: transparent;
+    border: 1px solid #2a2f3a;
+    color: white;
+}
+
+/* Hover effect for non-selected tabs */
+.onOtherCategory:hover {
+    background-color: #1a1f2e;
+}
+
+/* Remove default list styling and adjust positioning */
+.SelectCategory li:first-child {
+    margin-left: 0 !important;
+    /* Override the inline style if needed */
+}
+
+
+.newcard {
+    background-color: transparent;
+    color: white;
+    border-radius: 4px;
+    padding: 16px;
+    width: 239px;
+    height: 180px;
+    position: relative;
+    border: 1px solid #2B2D32;
+    /* box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.3); */
+    box-shadow: 0px 0px 2px 2px rgba(127, 127, 127, 0.25);
+    /* Smooth transition for transform, shadow, and border */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+}
+
+.newcard:hover {
+    transform: scale(1.02);
+    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); */
+    box-shadow: 0px 0px 2px 2px rgba(127, 127, 127, 0.25);
+    border: 3px solid #2b2d32;
+    /* Change to your desired hover border color */
+}
+
+
+.newheadericon-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.newcard-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0 !important;
+    color: #fff;
+    font-size: 0.85rem;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.newicon {
+    background-color: #1C1E2A;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+
+.newdescription {
+    font-size: 11px;
+    color: #B1B1B1;
+    margin-bottom: 12px;
+}
+
+.newbtn {
+    background-color: #0E8EBE;
+    color: white;
+    padding: 5px 17px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+.newbtn:hover {
+    background-color: #008FCC;
+}
+
+.newmenu {
+    position: absolute;
+    top: 31px;
+    right: 12px;
+    color: #6A6E79;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.newversionbadge {
+    background-color: #0E8EBE;
+    color: white;
+    font-size: 8px;
+    font-weight: bold;
+    padding: 3px 4px;
+    border-radius: 5px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.tabline {
+    height: 1px;
+    background-color: #2b2d32;
+    width: 100%;
+    box-shadow: 0px 1px 2px 0px rgba(194, 194, 194, 0.25);
+    margin-top: 1px;
+}
+
+.card-menu-dropdown {
+    position: absolute;
+    top: 23px;
+    right: 0px;
+    background-color: #1a1f2e;
+    color: white;
+    width: 130px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(40, 40, 40, 0.5);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #2B2D32;
+    padding: 2px
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 6px;
+    font-size: 12px;
+    font-weight: 400;
+    ;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.menu-item:hover {
+    background-color: #0e8ebe;
+    border-radius: 4px;
+}
+
+.menu-icon {
+    width: 16px;
+    height: 16px;
+    filter: brightness(0) invert(1);
+}
+
+.card-container {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 20px;
+   width: 100%;
+   padding: 0 35px 35px 35px;
+ }
+ 
+
+.card-container .card {
+    padding: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .16);
+    height: 180px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.custom-text-style {
+    font-size: 14px;
+    background-color: transparent;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .newcard {
+      width: 46%;
+      height: 172px;
+    }
+  
+    .scrollable-category {
+      overflow-x: auto;
+      background-color: rgba(255, 255, 255, 0);
+      -ms-overflow-style: none;  
+      scrollbar-width: none;     
+    }
+  
+    .scrollable-category::-webkit-scrollbar {
+      display: none; 
+    }
+  
+    .SelectCategory {
+      display: flex;
+      flex-wrap: nowrap;
+      padding: 0;
+      margin: 0;
+    }
+  
+    .SelectCategory li {
+      min-width: 100px;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+  
+    .card-container {
+      width: 100%;
+      margin: 0px 0px 0px -13px;
+    }
+  
+    .staticcard {
+      background-color: #070d19;
+      border: 1px solid #2b2d32;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: row;
+      padding: 5px;
+      gap: 9px;
+      min-width: 140px;
+      align-items: center;
+      box-shadow: 0 0 1px 2px rgba(112, 112, 112, 0.2);
+      transition: all 0.3s ease;
+    }
+  
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .card-name {
+        text-align: center;
+      font-size: 12px;
+      color: white;
+    }
+  
+    .round-icon {
+      padding: 6px;
+    }
+  }
+  
+ 

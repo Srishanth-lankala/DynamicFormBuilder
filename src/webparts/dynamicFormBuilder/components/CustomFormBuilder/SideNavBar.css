@@ -1,0 +1,261 @@
+.mainContainer {
+  display: flex;
+  transition: all 0.3s ease-in-out;
+  background-color: #2c3e50;
+  height: 100%;
+  position: relative;
+}
+
+
+.rightSideNavBar {
+  width: 240px; 
+  transition: width 0.3s ease-in-out;
+  background-color: #2c3e50; 
+  color: white;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.righttrans {
+  width: 50px;
+  background-color: #2c3e50;
+  margin: 0px 0px;
+  transition: all 0.2s ease-in-out;
+  height: 100vh;
+}
+
+
+.toggle_arrow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 16px;
+  
+}
+
+.view_flex{
+  display: flex;
+  justify-content:space-between ;
+  width: 240px !important;
+  margin: 0; 
+  padding: 0; 
+ 
+}
+
+.navtoglcls {
+  font-size: 30px;
+  cursor: pointer;
+  color: white;
+  margin-left: -20 px !important;
+  cursor:pointer;
+  transform: rotate(180deg); 
+  transition: transform 0.3s ease; 
+}
+
+
+.navlist {
+  margin-top: 20px;
+}
+
+.commonNavIcon {
+  display: flex;
+  align-items: center;
+  
+  padding: 12px 0px;
+  text-decoration: none;
+  color: white;
+  cursor:pointer;
+  
+}
+
+.commonNavIcon2{
+  display: flex;
+  align-items: center;
+  padding: 3px 0px;
+  text-decoration: none;
+  color: white;
+  cursor:pointer;
+}
+
+.commonNavIcon2:hover {
+  /* background-color: #34495e;
+  border-radius: 5px;
+  padding: 5px; */
+  color: #fff;
+  text-decoration: none;
+  
+  
+}
+
+
+.commonNavIcon {
+position: relative;
+}
+
+.commonNavIcon:hover {
+color: black; /* Changes text color */
+text-decoration: none;
+background: rgba(235, 235, 235, 0.64) !important; 
+}
+
+.commonNavIcon:hover svg {
+fill: black; 
+}
+
+
+.dropdown_container {
+position: absolute; 
+top: 100%; 
+left: 0;
+background: white; 
+border: 1px solid #ddd;
+z-index: 10; 
+}
+
+
+.dropdown_option {
+color: white; 
+padding: 8px 12px; 
+cursor: pointer;
+transition: all 0.2s ease;
+}
+
+.dropdown_option:hover {
+color: black; 
+background: rgba(235, 235, 235, 0.64) !important; 
+}
+
+.dropdown_option svg {
+fill: white; 
+}
+
+.dropdown_option:hover svg {
+fill: black; 
+}
+
+.icon {
+  margin-right: 6px !important;
+}
+
+
+.link-text {
+  display: inline-block;
+  margin-left: 10px !important;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.marketplace{
+  /* display: inline-block; */
+  margin-right: 80px;
+  /* transition: opacity 0.3s ease-in-out;
+  opacity: 1; */
+  font-size: 18px;
+  font-weight: 600;
+  color: rgb(238, 105, 30);;
+}
+
+
+
+.righttrans .link-text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.contentSection {
+  flex-grow: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.righttrans ~ .contentSection {
+  margin-left: 50px; 
+}
+
+.rightSideNavBar ~ .contentSection {
+  margin-left: 250px; 
+}
+svg{
+  margin-left: 15px;
+}
+
+
+
+.dropdown_flexing{
+display: flex;
+justify-content: flex-end;
+}
+
+.dropdown_option{
+margin-left: 55px;
+font-size: 15px;
+font-weight: 500;
+margin-top: 6px;
+transition: transform 0.3s ease; 
+}
+.dropdown_removing_padding{
+margin: 0; 
+/* padding: 0;  */
+
+}
+.sideNav_top{
+margin-top: -25px;
+}
+
+/* ----------------------------------------------- */
+
+.burgerMenu {
+  display: none;
+   /* Hide by default */
+  position: absolute;
+  
+  top: 9px;
+  left: 18px;
+  z-index: 999;
+  width: 40px;
+  height: 40px;
+  background-color: #34495e;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.burgerMenu svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+@media screen and (max-width: 768px) {
+  .burgerMenu {
+    display: flex; /* Show the burger menu for mobile view */
+  }
+
+  .rightSideNavBar {
+    position: fixed;
+    top: 0;
+    left: -240px; /* Hide sidebar initially */
+    height: 100%;
+    z-index: 998;
+    transition: left 0.3s ease-in-out;
+  }
+
+  .rightSideNavBar.open {
+    left: 0; /* Show sidebar */
+  }
+
+  .righttrans {
+    display: none; /* Hide toggled view for mobile */
+  }
+
+  .contentSection {
+    margin-left: 0 !important; /* Adjust content for mobile */
+  }
+}

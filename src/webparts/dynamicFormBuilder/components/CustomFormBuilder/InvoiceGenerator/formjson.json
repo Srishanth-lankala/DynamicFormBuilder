@@ -1,0 +1,110 @@
+[
+    {
+        "id": "59BA70D6-2E24-446F-AA8F-4CD7D4F3D313",
+        "field_name": "dropdown_2D22C039-4EE8-40C1-AAE0-48B3B475932E",
+        "element": "Dropdown",
+        "label": "Source Dropdown"
+    },
+    {
+        "id": "2D8D2F8C-420F-4412-A17C-001874CC3099",
+        "field_name": "checkboxes_A1679A91-5E81-409C-82D3-AA2A609DAA15",
+        "element": "Checkboxes",
+        "label": "Options Selection"
+    },
+    {
+        "id": "DCB9DF81-F40D-4958-8DEB-C74E5321CDDB",
+        "field_name": "radiobuttons_108D713B-E913-4C2E-B817-3A883BEA566A",
+        "element": "RadioButtons",
+        "label": "Primary Selection"
+    },
+    {
+        "id": "FE75918C-7B37-464A-A202-96564A1AF319",
+        "field_name": "text_input_7123C34F-0594-4162-A336-7D6BD22B2E21",
+        "element": "SingleLine",
+        "label": "User Input"
+    },
+    {
+        "id": "FAC80662-3E4C-4422-A461-475C13B7814C",
+        "field_name": "email_input_E79E399B-3F03-4B85-B9D3-61032A30DB47",
+        "element": "Email",
+        "label": "Contact Email"
+    },
+    {
+        "id": "3114C9CB-D677-4846-B0DA-0D3C6411E832",
+        "field_name": "number_input_CE01FBD3-8A78-455A-BFC5-D6D3F23CB8D6",
+        "element": "Number",
+        "label": "Quantity"
+    },
+    {
+        "id": "661FFFC1-00DC-44BE-A30C-2AA346660E65",
+        "field_name": "currency_input_F164699A-F6E9-4C8B-AF5E-F1E009E4E5E7",
+        "element": "Currency",
+        "label": "Amount"
+    },
+    {
+        "id": "0596402A-0578-44B6-A7F9-5DAE132550FA",
+        "field_name": "phone_input_03521D17-1612-40F1-AC0D-8DBD4A6E3247",
+        "element": "Phone",
+        "label": "Mobile Number"
+    },
+    {
+        "id": "1AB95158-2A84-4A96-9EE2-88083CF2517A",
+        "field_name": "text_area_80070FFA-7D59-4CC7-BE99-7536ACB321E1",
+        "element": "TextArea",
+        "label": "Comments"
+    },
+    {
+        "id": "E7DE4175-021E-459B-90F2-EF7A08B6FAEE",
+        "field_name": "date_picker_BA5431CC-25EA-497B-965C-4AEBA1C37DFE",
+        "element": "Date",
+        "label": "Submission Date"
+    },
+    {
+        "id": "9C9D0414-D43F-480B-88EE-A676D3C76FCD",
+        "field_name": "Expenses Table",
+        "element": "Label",
+        "content": "Table",
+        "label": "Expenses Table",
+        "columns": [
+            {
+                "headername": "Column 1"
+            },
+            {
+                "headername": "Column 2"
+            }
+        ]
+    },
+    {
+        "id": "C4A4854D-1377-47DE-8CCA-346F3E835871",
+        "field_name": "Work Timesheet",
+        "element": "Download",
+        "content": "Timesheet",
+        "label": "Work Timesheet",
+        "columns": [
+            {
+                "headername": "Project Code"
+            },
+            {
+                "headername": "Task"
+            },
+            {
+                "headername": "Description"
+            },
+            {
+                "headername": "03 Jul"
+            },
+            {
+                "headername": "04 Jul"
+            },
+            {
+                "headername": "07 Jul"
+            },
+            {
+                "headername": "05 Jul"
+            },
+            {
+                "headername": "06 Jul"
+            }
+        ]
+    }
+]

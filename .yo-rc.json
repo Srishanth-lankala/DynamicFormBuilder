@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.20.2",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.12.0"
+    },
+    "version": "1.19.0",
+    "libraryName": "dynamic-form-builder-pro",
+    "libraryId": "4ccd0ce8-81f5-4785-ba2b-43d8834e2b31",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "DynamicFormBuilderPro",
+    "solutionShortDescription": "DynamicFormBuilderPro description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1804.59 2348.92">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: none;
+      }
+
+      .cls-4, .cls-2 {
+        isolation: isolate;
+      }
+
+      .cls-2 {
+        mix-blend-mode: overlay;
+      }
+
+      .cls-5 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-6 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <circle class="cls-3" cx="697.76" cy="1136.33" r="512.83"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="276.52" y1="818.91" x2="1190.21" y2="1511.75" gradientTransform="translate(0 2274.66) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#aed038"/>
+      <stop offset="1" stop-color="#0f85ba"/>
+    </linearGradient>
+  </defs>
+  <g class="cls-4">
+    <g id="Layer_1">
+      <g class="cls-6">
+        <g>
+          <circle class="cls-5" cx="697.76" cy="1136.33" r="512.83"/>
+          <polygon class="cls-2" points="789.68 1174.03 789.96 1174.49 791.1 1175.96 1658.64 2348.92 1804.59 2240.91 1015.84 1174.49 1804.59 107.97 1658.64 0 791.1 1172.96 789.68 1174.03"/>
+          <polygon class="cls-1" points="1014.92 1174.03 1014.63 1174.49 1013.49 1175.96 145.95 2348.92 0 2240.91 788.75 1174.49 0 107.97 145.95 0 1013.49 1172.96 1014.92 1174.03"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

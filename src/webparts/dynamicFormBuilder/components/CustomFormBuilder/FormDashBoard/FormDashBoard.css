@@ -1,0 +1,496 @@
+.Graph {
+  display: flex;
+}
+
+.Approved-Hours {
+  display: flex;
+  gap: 43px;
+  margin-top: 12px;
+}
+
+.cmCard2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 25px;
+  /* gap: 18px;   */
+  background: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, .08);
+  border-radius: 12px;
+  width: 100%;
+}
+
+.cmCard1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 10px;
+  /* gap: 18px; */
+  background: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, .08);
+  border-radius: 12px;
+  width: 46%;
+}
+
+.cmCard2 svg {
+  color: rgba(248, 91, 0, 0.993);
+  margin-left: 0px;
+}
+
+.cmCard2 p {
+  align-self: self-end;
+}
+
+/* .rounddivicon{
+    background-color: #1A1F2E;
+    border-radius: 50%;
+    padding: 10px;
+    margin-left: -23px;
+} */
+.rounddivicon {
+  background-color: #1A1F2E;
+  border-radius: 50%;
+  margin-right: 20px;
+  min-width: 40px;
+  /* Fixed width for icon container */
+  height: 40px;
+  /* Fixed height for icon container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .staticdivcard {
+  background-color: #070D19;
+  border: 1px solid #2a2f3a;
+  border-radius: 4px;
+  padding: 37px;
+  width: 90%;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+  height: 80px;
+  box-shadow: 0px 0px 2px 3px #70707040;
+} */
+
+.staticdivcard {
+  background-color: #070D19;
+  border: 1px solid #2a2f3a;
+  border-radius: 4px;
+  padding: 10px 12px;
+  /* Reduced padding */
+  width: 100%;
+  /* Full width of parent */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 80px;
+  box-shadow: 0px 0px 2px 3px #70707040;
+  box-sizing: border-box;
+  /* Include padding in width calculation */
+}
+
+/* Add a container class for the cards */
+.cards-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 20px;
+  width: 100%;
+}
+
+/* Individual card container */
+.card-item {
+  flex: 1;
+  /* Each card takes equal space */
+  min-width: 0;
+  /* Allows flex items to shrink below min-content */
+}
+
+.icon-style-formdashboard {
+  width: 32px;
+  height: 32px;
+  color: white;
+  padding: 6px;
+}
+
+.text-frmdashbrd {
+  color: white;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.GraphAndTable {
+  display: flex;
+}
+
+
+.dataTableContainer {
+  padding: 20px;
+  background-color: transparent;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.statusView-main-table .p-datatable-tbody>tr:hover {
+  background: #d5b2ff !important;
+}
+
+.statusView-main-table .p-datatable-tbody>tr {
+  height: 10px;
+}
+
+.statusView-main-table .p-datatable-thead>tr>th {
+  background-color: #ee691e !important;
+  color: white;
+}
+
+.statusView-main-table .p-column-header,
+.statusView-main-table .p-datatable-tbody>tr>td {
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+
+.p-datatable .p-sortable-column .p-column-title {
+  margin-left: 10px;
+}
+
+.p-paginator-icon {
+  color: black;
+}
+
+.p-row-toggler-icon {
+  margin: 0px;
+}
+
+.p-paginator .p-dropdown {
+  height: 2rem !important;
+}
+
+.p-paginator .p-dropdown .p-dropdown-label {
+  padding: 2px 0px 2px 10px !important;
+}
+
+.p-dropdown-trigger-icon {
+  margin-left: 3px !important;
+}
+
+.Create-Card h6 {
+  font-size: 1rem !important;
+  text-align: center !important;
+  margin-left: 0px !important;
+}
+
+.Create-Card2 h6 {
+  font-size: 1rem !important;
+  text-align: center !important;
+  margin-left: 0px !important;
+}
+
+.Draft-Card h6,
+.InProcess-Card h6 {
+  font-size: 1rem !important;
+  text-align: center !important;
+}
+
+.graphTableContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 15px 15px 10px 15px;
+}
+
+.app_title {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+
+/* Optional: if you uncomment the img tag */
+.back_icon {
+  height: 23px;
+  width: 23px;
+  cursor: pointer;
+}
+.calendarboxdivinfrmdsbrd {
+  position: relative;
+  width: 95px;
+  margin-right: 0px;
+  border-radius: 4px 4px 4px 4px;
+}
+.newcalcontrol {
+  width: 100%;
+  height: 32px;
+  background-color: var(--color-background);
+  color: var(--color-white);
+  /* padding: '0px 0px 0px 25px'; */
+  border-radius: 4px;
+  border: 1px solid var(--color-border-dark);
+  outline: none;
+  font-size: 12px
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  color: var(--color-header-text);
+  background-color: var(--color-background);
+  padding: 4px 10px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 200px;
+  height: 60%;
+  align-self: flex-end;
+  box-shadow: 0 0 4px var(--color-text);
+  margin-right: 8px;
+  /* margin-top: 17px; */
+}
+
+.searchIcon {
+  width: 17px;
+  height: 17px;
+  margin-right: 0px;
+}
+
+.searchBox {
+  color: var(--color-header-text);
+  border: none;
+  outline: none;
+  flex: 1;
+  background: transparent;
+  font-size: 14px;
+  width: 100%;
+}
+
+.new-export-button {
+  display: flex;
+  flex-direction: row;
+  width: 70px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #4A4A4A;
+  background-color: #070D19;
+  text-align: center;
+  margin-left: 6px;
+  align-items: center; 
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+
+.switch_button {
+  display: flex;
+  flex-direction: row;
+  width: 45%;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #4A4A4A;
+  background-color: #0E8EBE;
+  text-align: center;
+  padding: 3px;
+  align-self: center;
+  margin: 0px 0px 0px 5px;
+  cursor: pointer;
+}
+
+.switch_inner {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.switch_icon {
+  width: 14.06px;
+  height: 18px;
+  padding-top: 5px;
+}
+
+.switch_text {
+  font-size: 12px;
+  padding-top: 2px;
+  margin-left: 10px;
+  color: #FFFFFF;
+}
+
+.form-dropdown-container {
+  margin: 15px;
+  display: none;
+}
+
+.form-sidebar-title {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #FFFFFF;
+}
+
+.customSingleDropdown {
+  margin-top: 7px;
+  width: 100%;
+  height: 35px;
+  font-size: 14px;
+  background-color: #070D19;
+  color: #FFFFFF;
+  border: 1px solid #65676ce4;
+  border-radius: 4px;
+  padding: 0px 0px;
+}
+
+/* Optional: Customize dropdown arrow for better look */
+.customSingleDropdown:focus {
+  outline: none;
+  border-color: #0E8EBE;
+}
+
+/* Style the options */
+.customSingleDropdown option {
+  background-color: #070D19;
+  color: #FFFFFF;
+}
+
+.customBarChart {
+  width: 750px;
+  height: 360px;
+  box-shadow: 0px 0px 4px 2px #87878740;
+  border: 1px solid #4A4A4A;
+  padding: 10px 0px 10px 10px;
+}
+
+
+
+
+
+/* -------------------------------------- */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .staticdivcard {
+    padding: 0px 4px;
+    gap: 0px;
+  }
+
+  .searchContainer {
+    align-items: center;
+    align-self: center;
+    margin-top: 11px;
+    color: var(--color-header-text);
+    background-color: var(--color-background);
+    padding: 6px 10px;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 190px;
+    height: 40%;
+    box-shadow: 0 0 4px var(--color-text);
+  }
+
+  .form-sidebar {
+    display: none;
+  }
+
+  .headerContainer {
+    display: none;
+  }
+
+  .form-dropdown-container {
+    display: block;
+  }
+
+  .customBarChart {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .allRecardsCards {
+    display: flex;
+
+  }
+
+  .tableContaner {
+    width: '100%';
+  }
+
+  .GraphContainer {
+    width: '100%';
+  }
+
+  .graphTableContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-around;
+    width: 87%;
+  }
+
+  .cmCard2 {
+    gap: 18px;
+  }
+}
+
+/* For Desktop View */
+@media screen and (min-width: 1024px) {
+  .tableContaner {
+    width: 100%;
+    /* height: 369px; */
+    overflow-y: scroll;
+  }
+
+  .GraphContainer {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    flex-wrap: wrap;
+    /* Allow cards to wrap on small screens */
+  }
+
+  .card-item {
+    flex: 1 1 45%;
+    /* Two cards per row on mobile */
+    min-width: 150px;
+    /* Minimum width for readability */
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-item {
+    flex: 1 1 100%;
+    /* One card per row on very small screens */
+  }
+
+  .staticdivcard {
+    padding: 10px 15px;
+    /* Smaller padding on mobile */
+    height: auto;
+    /* Auto height for content */
+    flex-direction: column;
+    /* Stack icon and text */
+    text-align: center;
+  }
+
+  .rounddivicon {
+    margin-left: 0;
+    /* Remove negative margin */
+    margin-bottom: 8px;
+  }
+}

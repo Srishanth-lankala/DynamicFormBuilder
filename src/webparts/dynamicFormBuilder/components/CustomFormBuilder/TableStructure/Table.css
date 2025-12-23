@@ -1,0 +1,190 @@
+.dynamic-table-container {
+    margin: 0px 10px 20px 10px;
+
+    .ms-Button {
+        &:hover {
+            background-color: transparent !important;
+        }
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .dynamic-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        border-radius: 2px;
+
+        th,
+        td {
+            border: 1px solid #212b46;
+            text-align: left;
+            vertical-align: middle;
+
+        }
+
+        td {
+            /* padding-left: 5px; */
+            background-color: #0D1322;
+        }
+
+        th {
+            background-color: #0D1322;
+            position: relative;
+            user-select: none;
+            padding: 8px;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .column-resize-handle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            cursor: col-resize;
+
+
+
+        }
+
+        .sum-row {
+            background-color: #0D1322;
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .borderless-input {
+            width: 100%;
+            border: none !important;
+            background: transparent !important;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            color: #fff;
+            font-weight: 400;
+            font-size: 13px;
+
+            &:hover {
+                outline: none !important;
+                border: none !important;
+                background: transparent !important;
+            }
+
+            &:focus {
+                outline: none !important;
+                box-shadow: none !important;
+                border: none !important;
+                background: transparent !important;
+            }
+        }
+
+        select.borderless-input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: transparent;
+
+            /* padding-right: 20px; Space for dropdown arrow */
+        }
+
+        select.borderless-input option {
+            background-color: #0D1322;
+            /* Dark background for options */
+            color: #fff;
+            /* White text for options */
+            padding: 8px;
+        }
+
+        select.borderless-input option:hover {
+            background-color: #212b46 !important;
+            color: #fff !important;
+        }
+
+        /* Style for selected dropdown option */
+        select.borderless-input option:checked {
+            background-color: #212b46;
+            color: #fff;
+        }
+
+        &.readonly-mode {
+            td {
+                background-color: #0D1322 !important;
+                /* Same as header color */
+                cursor: default;
+                /* Change cursor to default in readonly */
+            }
+
+            /* Keep input fields looking like regular text in readonly */
+            .borderless-input:disabled {
+                background-color: #0D1322 !important;
+                color: #fff;
+                /* Keep text color black */
+            }
+
+            /* Style for select dropdowns in readonly */
+            select.borderless-input:disabled {
+                background-color: #0D1322 !important;
+                color: #fff;
+            }
+        }
+    }
+
+    .addrow {
+        padding: 5px 10px !important;
+        font-size: 0.80rem !important;
+        font-weight: 400 !important;
+        border-radius: 3px !important;
+        background-color: #0E8EBE !important;
+    }
+
+    .addrow:focus {
+        box-shadow: none !important;
+    }
+
+    .btn-primary {
+        background-color: #0E8EBE;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 2px;
+
+        &:hover {
+            background-color: #0E8EBE;
+        }
+    }
+}
+
+select {
+    color: #aaa;
+    /* Placeholder color by default */
+}
+
+/* When a real option is selected, change color */
+select:valid {
+    color: #fff;
+}
+
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no-arrows[type=number] {
+    -moz-appearance: textfield;
+}
+
+.error-cell {
+    border: 2px solid #ff000057 !important;
+    /* highlight border */
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    /* optional glow */
+    border-radius: 4px;
+    /* rounded corners if you like */
+}

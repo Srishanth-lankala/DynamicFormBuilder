@@ -1,0 +1,94 @@
+.paste-container {
+    width: 97%;
+    height: 200px;
+    border: 2px solid rgb(7, 13, 25) !important;
+    overflow: hidden;
+    
+}
+.paste-container:hover,
+.paste-container:focus,
+.paste-container input:hover,
+.paste-container input:focus {
+  border: 1px solid #888 !important;
+}
+
+.editor-area {
+    min-height: 100%;
+    /* Ensure it takes at least the container's height */
+    max-height: 100%;
+    /* Restrict to container's height */
+    border: 2px solid #a28888;
+    padding: 15px;
+    border-radius: 4px;
+    outline: none;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: auto;
+    /* Enable horizontal scrolling if needed */
+    scroll-behavior: smooth;
+    /* Smooth scrolling for both axes */
+    box-sizing: border-box;
+}
+
+.editor-area::-webkit-scrollbar {
+    width: 8px;
+    /* Width for vertical scrollbar */
+    height: 8px;
+    /* Height for horizontal scrollbar */
+}
+
+.editor-area::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Track background */
+  border-radius: 4px;
+}
+
+.editor-area::-webkit-scrollbar-thumb {
+  background: #888;
+  /* Scrollbar thumb color */
+  border-radius: 4px;
+}
+
+.editor-area::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  /* Thumb color on hover */
+}
+
+/* Custom scrollbar styling for Firefox */
+.editor-area {
+  scrollbar-width: thin;
+  /* Thin scrollbar */
+  scrollbar-color: #888 #f1f1f1;
+  /* Thumb and track colors */
+}
+
+.editor-area:focus {
+  border-color: #007bff;
+}
+
+.editor-area:empty:before {
+  content: attr(data-placeholder);
+  color: #999;
+}
+
+
+
+.editor-area img {
+  max-width: 100%;
+  height: auto;
+  margin: 10px 0;
+  display: block;
+}
+
+.editor-area table {
+  border-collapse: collapse;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.editor-area td,
+.editor-area th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}

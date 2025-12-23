@@ -1,0 +1,103 @@
+
+.statusView-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+  background-color: #f4f5f7;
+}
+
+.statusView-main-container {
+  display: flex;
+  flex: 1;
+  overflow-y: auto; 
+}
+
+.statusView-content-container {
+  padding: 20px;
+  flex: 1;
+  background-color: #ffffff;
+  overflow-y: auto;
+}
+
+.statusView-page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+
+.statusView-main-table .p-datatable {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.statusView-main-table .p-column-header {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.statusView-main-table .p-datatable-tbody > tr:hover {
+  background-color: #e1f5fe;
+}
+
+.statusView-main-table .p-column-header,
+.statusView-main-table .p-datatable-tbody > tr > td {
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+.statusView-main-table .p-datatable-thead > tr > th {
+  background-color: #ee691e !important;
+  color: white;
+}
+
+
+.statusView-main-table .p-datatable-tbody > tr:nth-child(odd) {
+  background-color: #fff; 
+}
+
+.statusView-main-table .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f1e5ff; 
+}
+
+
+.statusView-expanded-table .p-datatable {
+  background-color: #eef3f7;
+}
+
+.statusView-expanded-table .p-datatable-tbody > tr {
+  background-color: #ffffff;
+}
+
+.statusView-expanded-table .p-column-header {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* .statusView-main-table .p-datatable-tbody > tr:hover {
+  background: #cca9f4 !important;
+} */
+
+.statusView-expanded-table .p-datatable-tbody > tr:hover {
+  background-color: #cca9f4 !important;
+}
+
+
+.statusView-main-table .p-paginator {
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.statusView-main-table .p-paginator .p-paginator-page {
+  color: #007bff;
+}
+
+.statusView-main-table .p-paginator .p-paginator-page:hover {
+  background-color: #e1f5fe;
+  color: #007bff;
+}

@@ -1,0 +1,39 @@
+
+  
+  .createFormContainer {
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // width: 100vw;
+    // height: 100vh;
+    // margin: 0;
+    // padding: 0;
+    // background-color: #f0f0f0;
+    background-color: white;
+  }
+  
+//   .iframeWrapper {
+//     background-color: white;
+//     // width: 100%;
+//     // height: 100%;
+//   }
+  
+  .fullScreenIframe {
+    background-color: white;
+    // width: 100%;
+    // height: 100vh;
+    // border: none;
+  }
+.fullScreenForm {
+    width: 100%;
+    height: 100%; /* Ensure the form takes up the full height */
+    display: flex;
+    justify-content: center; /* Center the form horizontally */
+    align-items: center; /* Center the form vertically */
+  }
+  
+  .fullScreenForm iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }

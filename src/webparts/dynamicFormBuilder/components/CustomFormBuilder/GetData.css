@@ -1,0 +1,683 @@
+width
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px;
+}
+
+.card-container .card {
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  text-align: center;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .16);
+  height: 180px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.new-version-badge {
+  background-color: rgb(248 91 0 / 99%);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 4px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.Save-btn {
+  background-color: lightskyblue;
+  border: none;
+  border-radius: 5px;
+  width: 60px;
+  font-size: 14px;
+  font-weight: 700;
+  color: antiquewhite;
+}
+
+.Submit-btn {
+  background-color: lightskyblue;
+  border: none;
+  border-radius: 5px;
+  width: 60px;
+  font-size: 14px;
+  font-weight: 700;
+  color: antiquewhite;
+}
+
+.Back-btn {
+  background-color: lightskyblue;
+  border: none;
+  border-radius: 5px;
+  width: 60px;
+  font-size: 14px;
+  font-weight: 700;
+  color: antiquewhite;
+}
+
+.Buttons-btn {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.allRecardsCards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.Recard-Cards {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+
+}
+
+.InProcess-Card {
+  padding: 20px;
+  /* border: 1px solid #ccc; */
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  text-align: center;
+  /* background-color: #ccc5c5; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(165, 238, 30, 0.5);
+  height: 89px;
+  align-items: center;
+
+}
+
+.Draft-Card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(245, 149, 5, 0.658);
+  height: 89px;
+  align-items: center;
+  height: 110px;
+  padding: 13px 24px 13px 24px;
+  border-radius: 12px;
+  max-width: 260px;
+  min-width: 224px;
+  width: 19%
+}
+
+.Create-Card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(165, 238, 30, 0.5);
+  height: 89px;
+  align-items: center;
+  height: 110px;
+  padding: 13px 24px 13px 24px;
+  border-radius: 12px;
+  max-width: 260px;
+  min-width: 224px;
+  width: 19%
+}
+.Create-Card h6{
+  font-size: 0.8rem;
+  margin-left: -90px;
+}
+.Create-Card2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid rgba(245, 149, 5, 0.658);
+  height: 89px;
+  align-items: center;
+  height: 110px;
+  padding: 13px 24px 13px 24px;
+  border-radius: 12px;
+  max-width: 260px;
+  min-width: 224px;
+  width: 19%
+}
+
+.Create-Card2 h6{
+  font-size: 0.8rem;
+  margin-left: -60px;
+}
+
+.Draft-Card h6 {
+  width: 100%;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.InProcess-Card h6 {
+  font-size: 0.8rem;
+  width: 100%;
+ text-align: left;
+}
+
+.InProcess-Card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 110px;
+  padding: 13px 24px 13px 24px;
+  border-radius: 12px;
+  max-width: 260px;
+  min-width: 224px;
+  width: 19%;
+}
+
+.RoutLink {
+  color: black;
+  text-decoration: none;
+  margin-left: -19px;
+}
+
+.RoutLink:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+.AvailableFormsContainer {
+  margin-top: 40px;
+}
+
+.form-pen-icon {
+  width: 50px;
+  height: 35px;
+  margin-left: 0px;
+  fill: none;
+  stroke: #ee691e;
+  /* You can change this to any color */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.3s;
+}
+
+.CardHeading {
+  font-size: 1rem;
+  margin-left: 5px;
+  color: #000;
+  width: 90%;
+  min-width: 100px;
+  text-align: left;
+}
+
+.Card_Icon_Heading {
+  display: flex;
+  align-items: center;
+}
+
+.idea-light-pen-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #ee691e;
+  /* Base color */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.3s, transform 0.3s;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+.idea-light-pen-icon:hover {
+  stroke: #680fd2;
+  /* transform: scale(1.1);  */
+  /* background-color: #680fd2; */
+  transition: background-color 1s, transform 0.3s;
+  border-radius: 60%;
+
+}
+
+.ButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.CreateNew_Btn {
+  background: linear-gradient(40deg, #ee691e, #680fd2 90%);
+  color: #fafafa;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  width: 88px;
+  height: 29px;
+  font-size: 10px;
+}
+
+.Select_Btn {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 2px;
+  /* background: rgb(238, 237, 237); */
+  border-bottom: 2px solid rgb(238, 237, 237);
+  margin-bottom: 0px;
+  padding-left: 40px !important;
+}
+
+.Select_Btn li {
+  color: #ffffff;
+  font-weight: 600;
+  padding: 6px;
+  width: 140px;
+  text-align: center;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+/* linear-gradient(89.05deg, #ee691e, #680fd2 92.72%)d5b2ff */
+
+.onOthers {
+  background-color: #d5b2ff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.Search-container {
+  background: linear-gradient(89.05deg, #ee691e, #680fd2 92.72%);
+  height: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.Icon-Count {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+.Icon-Count svg{
+  align-self: center;
+  margin-left: -2px;
+  color: rgba(165, 238, 30, 0.5);
+  font-weight: 600;
+  /* font-size: 18px; */
+  /* height: 50px; */
+}
+.Icon-Count p{
+  margin-bottom:-5px;
+  /* color: rgba(165, 238, 30, 0.5); */
+  font-weight: 600;
+
+}
+.Icon-Count-Draft{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+.Icon-Count-Draft svg{
+  align-self: center;
+  margin-left: -2px;
+  color: rgba(248, 91, 0, 0.993);
+  font-weight: 600;
+}
+.Icon-Count-Draft p{
+  margin-bottom:-5px;
+  /* color: rgba(165, 238, 30, 0.5); */
+  font-weight: 600;
+
+}
+
+/* ---------------------------- */
+
+.Icon-Count2 {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+.Icon-Count2 svg{
+  align-self: center;
+  margin-left: -2px;
+  color: rgba(248, 162, 2, 0.774);
+  font-weight: 600;
+}
+.Icon-Count2 p{
+  margin-bottom:-5px;
+  /* color: rgba(165, 238, 30, 0.5); */
+  font-weight: 600;
+
+}
+
+.searchBar{
+  height: 40px;
+  align-self: center;
+  border: none;
+  border-radius: 7px;
+  width: 45%;
+}
+.mic{
+  height: 18px;
+  align-self: center;
+  margin-left: -26px;
+}
+
+
+
+
+.Create-Card_Disable {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 5px;
+  
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid gray;
+  height: 89px;
+  align-items: center;
+  height: 110px;
+  padding: 13px 24px 13px 24px;
+  border-radius: 12px;
+  max-width: 260px;
+  min-width: 224px;
+  width: 19%;
+  pointer-events: none;
+cursor: not-allowed; 
+}
+
+
+
+.Recard-Cards_Disable {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+  
+}
+/* Apply the same styles to both .info-icon and .edit-icon */
+.info-icon, .edit-icon {
+  font-size: 18px;
+  color: rgba(248, 91, 0, 0.993);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.info-icon:hover, .edit-icon:hover {
+  color: #005a8d;
+}
+
+
+.tooltip {
+  visibility: visible;  /* Make sure the tooltip is visible */
+  background-color: rgba(119, 118, 118, 0.753);
+  color: #fff;
+  font-size: 10px !important;
+  text-align: center !important;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 35%;
+  left: 100%;
+  transform: translateX(-50%);
+  opacity: 1;  /* Set opacity to 1 */
+  transition: opacity 0.3s;
+  height: 23px;
+  width: 100px;
+  border-bottom-left-radius: 0px !important;
+}
+
+.Edit {
+  visibility: visible;  /* Make sure the Edit tooltip is visible */
+  background-color: rgba(119, 118, 118, 0.753);
+  color: #fff;
+  font-size: 10px !important;
+  text-align: center !important;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 10;
+  bottom: 35%;
+  left: 97%;
+  transform: translateX(-50%);
+  opacity: 0;  /* Set opacity to 1 */
+  transition: opacity 0.3s;
+  height: 23px;
+  width: 55px;
+  border-bottom-left-radius: 0px !important;
+}
+.Create-Card_Disable h6{
+ 
+  color: gray;
+}
+
+.info-icon-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+.info-icon-containerr:hover .Edit{
+  visibility: visible;
+  opacity: 1;
+}
+
+
+ /* /////////////////////////  */
+
+
+
+.allRecardsCards {
+  display: flex;
+  /* flex-wrap: wrap; */
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  /* padding: 0 15px; */
+}
+
+.Recard-Cards {
+  flex: 1 1 224px;
+  max-width: 260px;
+  min-width: 200px;
+  margin: 10px;
+}
+
+.Create-Card, .Create-Card2, .Draft-Card, .InProcess-Card, .Create-Card_Disable {
+  width: 100%;
+  min-width: unset;
+  max-width: 100%;
+  height: auto;
+  min-height: 110px;
+  padding: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    overflow-y: hidden;
+  }
+  .allRecardsCards {
+    flex-wrap: wrap;}
+  /* Hide Create Form and Create Workflow cards in mobile */
+  /* .Recard-Cards:nth-child(1),
+  .Recard-Cards:nth-child(2) {
+    display: none;
+  } */
+  .hideInMobile {
+    display: none;
+  }
+
+  /* Allow scrolling in the card container area only */
+  .card-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: calc(100vh - 300px) !important;
+  }
+  .card-container .card { 
+    padding: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .16);
+    height: 180px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 10px;
+    flex: 1 1 200px;
+    max-width: 100%;
+  }
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1200px) {
+  .allRecardsCards {
+    gap: 15px;
+  }
+
+  .Recard-Cards {
+    flex: 1 1 200px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .allRecardsCards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .Recard-Cards {
+    width: 100%;
+    max-width: 100%;
+    margin: 5px 0;
+  }
+
+  .Create-Card, .Create-Card2, .Draft-Card, .InProcess-Card, .Create-Card_Disable {
+    padding: 10px;
+  }
+  .card-container {
+    padding: 0 10px;
+  }
+
+  .card {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .ButtonContainer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .CreateNew_Btn {
+    width: 100%;
+    max-width: 200px;
+  }
+  .Search-container {
+    height: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Card_Icon_Heading {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .CardHeading {
+    margin: 10px 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .Create-Card h6, .Create-Card2 h6, .Draft-Card h6, .InProcess-Card h6 {
+    margin-left: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .Icon-Count, .Icon-Count2, .Icon-Count-Draft {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .searchBar {
+    width: 90%;
+  }
+
+  .tooltip, .Edit {
+    left: 50%;
+    bottom: -30px;
+  }
+}
+
+/* Fix for tooltips on mobile */
+@media (hover: none) {
+  .tooltip, .Edit {
+    display: none;
+  }
+}
+
+/* Ensure minimum spacing on very small screens */
+@media screen and (max-width: 320px) {
+  .card-container .card {
+    min-width: 250px;
+  }
+
+  .Recard-Cards {
+    min-width: 250px;
+  }
+}
+
+
+
+
+
+
+
+
+
+

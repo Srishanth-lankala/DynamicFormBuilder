@@ -1,0 +1,48 @@
+.Submit-btn{
+    background-color: #0e6ca7   ;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    color: antiquewhite;
+    margin: 66px;
+}
+
+.Save-btn{ 
+    background-color: #0e6ca7   ;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    color: antiquewhite;
+    margin: 66px;
+
+}
+.Back-btn{
+    background-color: #0e6ca7   ;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    color: antiquewhite;
+    margin: 66px;
+}
+.react-form-builder .btn-primary {
+    display: none !important;
+}
+[class="btn btn-big"]{
+    display: none !important;
+}
+ 
+.MobileEditView {
+    margin: 15px 30px
+}
+
+@media (max-width: 768px) {
+    .MobileEditView {
+        margin: 0px 0px
+    }
+}

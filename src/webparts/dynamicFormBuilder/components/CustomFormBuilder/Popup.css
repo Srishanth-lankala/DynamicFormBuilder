@@ -1,0 +1,64 @@
+.modal-content {
+
+  background-color: #f1e5ff !important;
+
+  max-height: 80vh !important;
+
+  padding: 20 30 10 30 !important;
+
+  overflow-y: auto;
+
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  max-width: 100% !important;
+
+}
+
+
+.modal {
+
+  background: rgba(0, 0, 0, 0.3);
+
+}
+
+.savepopup {
+
+  Padding: 10px 30px !important;
+
+
+
+}
+
+.paste-container.short-height {
+ border: 1px solid #888 !important;
+  height: 120px !important;
+
+}
+
+
+.customBtn {
+
+  box-shadow: none;
+
+  font-size: 14px !important;
+
+  color: #fff !important;
+
+  font-weight: 500 !important;
+
+  border-radius: 5px !important;
+
+  border: none !important;
+
+  background-image: linear-gradient(45deg, #ee691e, #680fd2);
+
+  float: right;
+  /* Ensuring the button floats to the right */
+
+}
+
+.alert-warning {
+  color: white !important;
+  background-color: #212b46 !important;
+  border: none !important;
+}

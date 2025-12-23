@@ -1,0 +1,61 @@
+.parentContainer {
+  margin: 10px 0;
+  font-family: Arial, sans-serif;
+
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #212b46;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.toggleBtn {
+  font-size: 12px;
+  color: #0e8ebe;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.panel {
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.childTabsWrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+  background: #212b463d;
+  border: 2px solid #161D2F;
+  border-top: none;
+}
+ 
+.childTab {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid #6060608f;
+  border-radius: 6px 6px 0 0;
+  background: #212B46;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+  font-weight: 500;
+}
+ 
+.activeTab {
+  background: #0e8ebe;
+}
+
+.noChildren {
+  color: #888;
+  padding: 10px;
+}

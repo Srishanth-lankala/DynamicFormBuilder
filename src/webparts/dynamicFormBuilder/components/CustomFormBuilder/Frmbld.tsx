@@ -1,0 +1,19 @@
+import * as React from 'react';
+import { ReactFormGenerator } from 'react-form-builder2';
+
+// Define the component with the correct TypeScript return type
+const FormBuilder: React.FC = (): JSX.Element => {
+  // Define the form JSON object with type annotations for better type safety
+  const formJson = [{"id":"218CD496-A001-4528-8424-49F9B5C19B65","element":"ThreeColumnRow","text":"three-columns-row","group_name":"Advanced","static":false,"required":false,"content":"ThreeColumnRow","canHavePageBreakBefore":true,"canHaveAlternateForm":true,"canHaveDisplayHorizontal":true,"canHaveOptionCorrect":true,"canHaveOptionValue":true,"canPopulateFromApi":true,"field_name":"three_col_row_51EFEB60-97C7-4F41-8847-26F04017A6B3","childItems":["012F6375-0C8D-468E-8F5E-B7343444D122","CA64C997-7A35-4F30-859B-270F74E5067E","CCB26011-BF71-4D31-8FAD-8DB2D7295EFE"],"isContainer":true},{"id":"012F6375-0C8D-468E-8F5E-B7343444D122","element":"Dropdown","text":"dropdown","group_name":"Basic","static":false,"required":false,"canHaveAnswer":true,"content":"Dropdown","canHavePageBreakBefore":true,"canHaveAlternateForm":true,"canHaveDisplayHorizontal":true,"canHaveOptionCorrect":true,"canHaveOptionValue":true,"canPopulateFromApi":true,"field_name":"dropdown_7500C65A-DDA5-4309-97B2-E2C793899D6D","label":"place-holder-label","options":[{"value":"place_holder_option_1","text":"Place holder option 1","key":"dropdown_option_D5B18445-2BF0-4948-ABDA-3871B6D5E1A6"},{"value":"place_holder_option_2","text":"Place holder option 2","key":"dropdown_option_24B9A44C-CACD-4961-B0D8-B96419E458F3"},{"value":"place_holder_option_3","text":"Place holder option 3","key":"dropdown_option_7A153862-1B87-402A-A9EE-35E808FD97E3"}],"col":0,"parentId":"218CD496-A001-4528-8424-49F9B5C19B65","parentIndex":0},{"id":"CA64C997-7A35-4F30-859B-270F74E5067E","element":"Checkboxes","text":"checkboxes","group_name":"Basic","static":false,"required":false,"canHaveAnswer":true,"content":"Checkboxes","canHavePageBreakBefore":true,"canHaveAlternateForm":true,"canHaveDisplayHorizontal":true,"canHaveOptionCorrect":true,"canHaveOptionValue":true,"canPopulateFromApi":true,"field_name":"checkboxes_21065425-7DDD-4FED-9208-39456EF9AB0F","label":"place-holder-label","options":[{"value":"place_holder_option_1","text":"Place holder option 1","key":"checkboxes_option_3BACBA34-1691-42C7-B661-505EB9B8E9AC"},{"value":"place_holder_option_2","text":"Place holder option 2","key":"checkboxes_option_99423AF3-11EC-4858-9701-C7CC17023359"},{"value":"place_holder_option_3","text":"Place holder option 3","key":"checkboxes_option_0A9A4A40-B38D-4757-9856-6F942CABEB21"}],"col":1,"parentId":"218CD496-A001-4528-8424-49F9B5C19B65","parentIndex":0},{"id":"CCB26011-BF71-4D31-8FAD-8DB2D7295EFE","element":"RadioButtons","text":"multiple-choice","group_name":"Basic","static":false,"required":false,"canHaveAnswer":true,"content":"RadioButtons","canHavePageBreakBefore":true,"canHaveAlternateForm":true,"canHaveDisplayHorizontal":true,"canHaveOptionCorrect":true,"canHaveOptionValue":true,"canPopulateFromApi":true,"field_name":"radiobuttons_9CF00D60-42B8-47A0-84B7-4B9CA936D1FE","label":"place-holder-label","options":[{"value":"place_holder_option_1","text":"Place holder option 1","key":"radiobuttons_option_DF01FE68-DD4C-40AA-AB06-E9B80CE36522"},{"value":"place_holder_option_2","text":"Place holder option 2","key":"radiobuttons_option_9EE56501-C52D-4893-BBB2-BF14531E7C90"},{"value":"place_holder_option_3","text":"Place holder option 3","key":"radiobuttons_option_75C7566E-9174-4F58-853D-0667463360E9"}],"col":2,"parentId":"218CD496-A001-4528-8424-49F9B5C19B65","parentIndex":0}];
+
+  // Render the form using ReactFormGenerator with data prop
+  return (
+    <>
+      <h1>This is the form</h1>
+      <ReactFormGenerator data={formJson} form_action="/submit" 
+        form_method="POST" hide_actions={true} />
+    </>
+  );
+};
+
+export default FormBuilder;

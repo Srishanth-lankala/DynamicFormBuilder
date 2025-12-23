@@ -1,0 +1,114 @@
+/* Reset and ensure full height for the page */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Outer container taking the full height of the viewport */
+.dateView1-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  background-color: #f4f5f7; /* Match statusView background color */
+}
+
+.dateView1-main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden; /* Prevent scroll leaking */
+}
+
+.dateView1-content-container {
+  flex: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fix height to the container */
+  overflow-y: auto; /* Allow scroll only within this area */
+}
+
+.dateView1-page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Styling for the DataTable */
+.dateView1-main-table .p-datatable {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dateView1-main-table .p-column-header {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.dateView1-main-table .p-column-header,
+.dateView1-main-table .p-datatable-tbody > tr > td {
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+.dateView1-main-table .p-datatable-thead > tr > th {
+  background-color: #ee691e !important;
+  color: white;
+}
+
+/* Alternating even and odd row colors */
+.dateView1-main-table .p-datatable-tbody > tr:nth-child(odd) {
+  background-color: #fff; /* Light gray for odd rows */
+}
+
+.dateView1-main-table .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f1e5ff; /* White for even rows */
+}
+
+/* Custom styles for the expanded table */
+.dateView1-expanded-table {
+  margin-top: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #eef3f7;
+}
+
+.dateView1-expanded-table .p-datatable-tbody > tr {
+  background-color: #ffffff;
+}
+
+.dateView1-main-table .p-datatable-tbody > tr:hover {
+  background: #f1e5ff !important;
+}
+
+.dateView1-expanded-table .p-datatable-tbody > tr:hover {
+  background-color: #d5b2ff !important;
+}
+
+/* Styling for the pagination */
+.dateView1-main-table .p-paginator {
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.dateView1-main-table .p-paginator .p-paginator-page {
+  color: #007bff;
+}
+
+.dateView1-main-table .p-paginator .p-paginator-page:hover {
+  background-color: #e1f5fe;
+  color: #007bff;
+}
+
+tr {
+  cursor: pointer;
+}

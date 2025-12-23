@@ -1,0 +1,27 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "dynamic-form-builder-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/dynamicFormBuilder/DynamicFormBuilderWebPart.js",
+          "manifest": "./src/webparts/dynamicFormBuilder/DynamicFormBuilderWebPart.manifest.json"
+        }
+      ]
+
+
+
+
+
+
+
+
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "DynamicFormBuilderWebPartStrings": "lib/webparts/dynamicFormBuilder/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+  }
+}
