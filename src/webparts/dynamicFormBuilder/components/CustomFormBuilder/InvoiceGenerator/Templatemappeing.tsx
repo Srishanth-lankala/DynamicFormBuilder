@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Upload, FileText, X, ZoomIn, ZoomOut } from 'lucide-react';
-import { Database } from 'lucide-react';
+import { Upload, X, ZoomIn, ZoomOut } from 'lucide-react';
+// import { Database } from 'lucide-react';
 import FieldSidebar from './fieldsidebar';
 import { type MappedField, mapSchemaToFields } from './dataMapping';
 // import formSchema from './formjson.json';
 import { SharePointService } from '../services/SharePointService';
 import './InvoiceGenerator.css';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf';
+import { Toast } from 'primereact/toast';
 import pdfWorker from 'pdfjs-dist/legacy/build/pdf.worker.entry';
 // import { jsPDF } from 'jspdf';
 import { dataservice } from '../encryptionutil';
@@ -68,8 +69,9 @@ declare global {
 }
 
 export default function TemplateMapper() {
-
+    const toast = React.useRef<Toast>(null);
     const [formmasteritems, setFormmasteritems] = useState<any[]>([]);
+    const [allFormMasterItems, setAllFormMasterItems] = useState<any[]>([]);
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [fileContent, setFileContent] = useState<string | ArrayBuffer>('');
     const [fileType, setFileType] = useState<string>('');
@@ -142,25 +144,77 @@ export default function TemplateMapper() {
             .items
             .select("*", "Id", "IsParentForm", "FormJSON", "ParentAppCode", "VisibilityFlag")
             .get();
-        const filteredItems = RAWitems?.filter((item: any) => !item.ParentAppCode && item.VisibilityFlag === true);
-        const items = filteredItems?.map((item: any) => {
-            return { ...item, FormJSON: dataserviceobj.decryptjson(item.FormJSON) };
-        })
-        console.log('Form Master Items', items, RAWitems);
-        setFormmasteritems(items);
-        return items;
+
+        const decryptedItems = RAWitems?.map((item: any) => {
+            return {
+                ...item,
+                FormJSON: item.FormJSON ? dataserviceobj.decryptjson(item.FormJSON) : '[]'
+            };
+        }) || [];
+
+        console.log('Decrypted Form Master Items', decryptedItems);
+        setAllFormMasterItems(decryptedItems);
+
+        const filteredItems = decryptedItems.filter((item: any) => !item.ParentAppCode && item.VisibilityFlag === true);
+        setFormmasteritems(filteredItems);
+        return filteredItems;
     }
+
     const fetchdata = (items: any[], appCode: string) => {
         if (!appCode || !items.length) return;
-        let formSchema1 = items.find(item => item.AppCode === appCode)?.FormJSON;
-        if (formSchema1) {
+
+        const selectedItem = items.find(item => item.AppCode === appCode);
+        if (!selectedItem) return;
+
+        let mergedFields: any[] = [];
+
+        if (selectedItem.IsParentForm) {
+            // Find all forms whose ParentAppCode is the selected AppCode
+            const children = allFormMasterItems.filter(item => item.ParentAppCode === appCode);
+
+            console.log(`Merging ${children.length} child forms for parent ${appCode}`);
+
+            children.forEach(child => {
+                try {
+                    const schema = typeof child.FormJSON === 'string' ? JSON.parse(child.FormJSON) : child.FormJSON;
+                    if (Array.isArray(schema)) {
+                        mergedFields = [...mergedFields, ...schema];
+                    }
+                } catch (error) {
+                    console.error("Error parsing child form schema:", error);
+                    // Fallback if it's already an array
+                    if (Array.isArray(child.FormJSON)) {
+                        mergedFields = [...mergedFields, ...child.FormJSON];
+                    }
+                }
+            });
+
+            // Also check if parent itself has fields
             try {
-                const schema = typeof formSchema1 === 'string' ? JSON.parse(formSchema1) : formSchema1;
-                const sidebarfeilds = mapSchemaToFields(schema as any);
-                setSidebarFields(sidebarfeilds);
-            } catch (error) {
-                console.error("Error parsing form schema:", error);
+                const parentSchema = typeof selectedItem.FormJSON === 'string' ? JSON.parse(selectedItem.FormJSON) : selectedItem.FormJSON;
+                if (Array.isArray(parentSchema)) {
+                    mergedFields = [...mergedFields, ...parentSchema];
+                }
+            } catch (e) { }
+
+        } else {
+            // Normal form logic
+            let formSchema1 = selectedItem.FormJSON;
+            if (formSchema1) {
+                try {
+                    mergedFields = typeof formSchema1 === 'string' ? JSON.parse(formSchema1) : formSchema1;
+                } catch (error) {
+                    console.error("Error parsing form schema:", error);
+                    if (Array.isArray(formSchema1)) {
+                        mergedFields = formSchema1;
+                    }
+                }
             }
+        }
+
+        if (mergedFields && (Array.isArray(mergedFields) ? mergedFields.length > 0 : true)) {
+            const sidebarfeilds = mapSchemaToFields(mergedFields as any);
+            setSidebarFields(sidebarfeilds);
         }
     };
     useEffect(() => {
@@ -179,7 +233,7 @@ export default function TemplateMapper() {
         if (selectedApp && formmasteritems.length > 0) {
             fetchdata(formmasteritems, selectedApp);
         }
-    }, [selectedApp, formmasteritems]);
+    }, [selectedApp, formmasteritems, allFormMasterItems]);
 
 
 
@@ -301,7 +355,7 @@ export default function TemplateMapper() {
         const scaleY = page.height / rect.height;
 
         let width = draggedField.type === 'Table' || draggedField.type === 'Timesheet' ? 300 : 150;
-        let height = draggedField.type === 'Table' || draggedField.type === 'Timesheet' ? 200 : 50;
+        let height = 22;
 
         // Calculate PDF-space mouse coordinates
         let mouseX = (e.clientX - rect.left) * scaleX;
@@ -601,240 +655,10 @@ export default function TemplateMapper() {
         }
     };
 
-
-
-    // const generateFilledDocument = async () => {
-    //     try {
-    //         if (!uploadedFile) return;
-
-    //         if (pdfPages.length > 0) {
-    //             const doc = new jsPDF({
-    //                 orientation: 'portrait',
-    //                 unit: 'px',
-    //                 format: [pdfPages[0].width, pdfPages[0].height] // Initial format, will be updated per page
-    //             });
-
-    //             // Loop through all pages
-    //             for (let i = 0; i < pdfPages.length; i++) {
-    //                 const page = pdfPages[i];
-
-    //                 // Add new page if not the first one
-    //                 if (i > 0) {
-    //                     doc.addPage([page.width, page.height]);
-    //                 }
-
-    //                 // Create canvas for this page
-    //                 const canvas = document.createElement('canvas');
-    //                 const ctx = canvas.getContext('2d');
-    //                 if (!ctx) continue;
-
-    //                 canvas.width = page.width;
-    //                 canvas.height = page.height;
-
-    //                 const img = new Image();
-    //                 img.crossOrigin = 'anonymous';
-    //                 img.src = page.dataUrl;
-
-    //                 await new Promise((resolve) => { img.onload = resolve; });
-
-    //                 // Draw background
-    //                 ctx.drawImage(img, 0, 0, page.width, page.height);
-
-    //                 // Filter fields for THIS page index
-    //                 const pageFields = placedFields.filter(f => f.pageIndex === i);
-
-    //                 pageFields.forEach(field => {
-    //                     if ((field.type === 'Table' || field.type === 'Timesheet') && field.tableData) {
-    //                         // Render Table/Timesheet Grid
-    //                         const cols = field.tableData.columns;
-    //                         const rows = field.tableData.rows;
-    //                         const colWidth = field.width / cols.length;
-    //                         const rowHeight = field.fontSize + 10;
-
-    //                         // Draw Header
-    //                         ctx.fillStyle = '#f3f4f6';
-    //                         ctx.fillRect(field.x, field.y, field.width, rowHeight);
-    //                         ctx.strokeStyle = '#000000';
-    //                         ctx.lineWidth = 1;
-    //                         ctx.strokeRect(field.x, field.y, field.width, rowHeight);
-
-    //                         cols.forEach((col: any, j: number) => {
-    //                             ctx.fillStyle = '#000000';
-    //                             ctx.font = `bold ${field.fontSize}px Arial`;
-    //                             ctx.textAlign = 'left';
-    //                             ctx.textBaseline = 'middle';
-    //                             ctx.fillText(col.headername, field.x + (j * colWidth) + 5, field.y + (rowHeight / 2), colWidth - 10);
-    //                             if (j > 0) {
-    //                                 ctx.beginPath();
-    //                                 ctx.moveTo(field.x + (j * colWidth), field.y);
-    //                                 ctx.lineTo(field.x + (j * colWidth), field.y + rowHeight);
-    //                                 ctx.stroke();
-    //                             }
-    //                         });
-
-    //                         // Draw Rows
-    //                         rows.forEach((row: any, i: number) => {
-    //                             const y = field.y + rowHeight + (i * rowHeight);
-    //                             ctx.strokeRect(field.x, y, field.width, rowHeight);
-
-    //                             cols.forEach((col: any, j: number) => {
-    //                                 ctx.fillStyle = '#000000';
-    //                                 ctx.font = `${field.fontSize}px Arial`;
-    //                                 ctx.fillText(String(row[col.headername] || ''), field.x + (j * colWidth) + 5, y + (rowHeight / 2), colWidth - 10);
-    //                                 if (j > 0) {
-    //                                     ctx.beginPath();
-    //                                     ctx.moveTo(field.x + (j * colWidth), y);
-    //                                     ctx.lineTo(field.x + (j * colWidth), y + rowHeight);
-    //                                     ctx.stroke();
-    //                                 }
-    //                             });
-    //                         });
-
-    //                     } else {
-    //                         // Apply custom font styles (Family & Size only)
-    //                         ctx.font = `normal normal ${field.fontSize}px ${field.fontFamily || 'Arial'}`;
-    //                         ctx.fillStyle = '#000000'; // Always black
-    //                         ctx.textBaseline = 'top';   // Top align for wrapped text
-
-    //                         // Use field name/label as sample text if value is empty for better visualization
-    //                         const textToRender = field.value || field.label || "Sample Text";
-
-    //                         // Wrap text within the box width
-    //                         const words = textToRender.split(' ');
-    //                         let line = '';
-    //                         let y = field.y + 5; // Start padding
-    //                         const lineHeight = field.fontSize * 1.2;
-    //                         const maxWidth = field.width - 10; // Padding
-    //                         const maxY = field.y + field.height; // Bottom boundary
-
-    //                         for (let n = 0; n < words.length; n++) {
-    //                             const testLine = line + words[n] + ' ';
-    //                             const metrics = ctx.measureText(testLine);
-    //                             const testWidth = metrics.width;
-    //                             if (testWidth > maxWidth && n > 0) {
-    //                                 // Check if next line fits vertically
-    //                                 if (y + lineHeight + lineHeight > maxY) {
-    //                                     // Next line won't fit, so this is the last line. Add ellipsis.
-    //                                     while (ctx.measureText(line + '...').width > maxWidth && line.length > 0) {
-    //                                         line = line.slice(0, -1);
-    //                                     }
-    //                                     ctx.fillText(line + '...', field.x + 5, y);
-    //                                     line = ''; // Clear line so we don't draw it again after loop
-    //                                     break; // Stop processing
-    //                                 }
-
-    //                                 ctx.fillText(line, field.x + 5, y); // Draw current line
-    //                                 line = words[n] + ' '; // Start new line
-    //                                 y += lineHeight;
-    //                             }
-    //                             else {
-    //                                 line = testLine;
-    //                             }
-    //                         }
-    //                         // Draw remaining text if it fits and wasn't cleared by truncation logic
-    //                         if (line.length > 0 && y + lineHeight <= maxY) {
-    //                             ctx.fillText(line, field.x + 5, y);
-    //                         }
-    //                     }
-    //                 });
-
-    //                 // Add rendered canvas to PDF
-    //                 const pageDataUrl = canvas.toDataURL('image/jpeg', 0.95);
-    //                 doc.addImage(pageDataUrl, 'JPEG', 0, 0, page.width, page.height);
-    //             }
-
-    //             doc.save(`${uploadedFile.name.split('.')[0]}_filled.pdf`);
-    //             showSuccessNotification('Multi-page document generated!');
-
-    //         } else if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(fileType)) {
-    //             // Single image handling (keep existing logic for images)
-    //             if (pdfPages.length === 0) return;
-    //             const page = pdfPages[0];
-
-    //             const canvas = document.createElement('canvas');
-    //             const ctx = canvas.getContext('2d');
-    //             if (!ctx) return;
-
-    //             canvas.width = page.width;
-    //             canvas.height = page.height;
-
-    //             const img = new Image();
-    //             img.crossOrigin = 'anonymous';
-    //             img.src = page.dataUrl;
-
-    //             await new Promise((resolve) => { img.onload = resolve; });
-
-    //             ctx.drawImage(img, 0, 0, page.width, page.height);
-
-    //             const pageFields = placedFields.filter(f => f.pageIndex === 0);
-    //             pageFields.forEach(field => {
-    //                 ctx.font = `normal normal ${field.fontSize}px ${field.fontFamily || 'Arial'}`;
-    //                 ctx.fillStyle = '#000000';
-    //                 ctx.textBaseline = 'top';
-
-    //                 const textToRender = field.value || field.label || "Sample Text";
-
-    //                 // Wrap text within the box width
-    //                 const words = textToRender.split(' ');
-    //                 let line = '';
-    //                 let y = field.y + 5;
-    //                 const lineHeight = field.fontSize * 1.2;
-    //                 const maxWidth = field.width - 10;
-    //                 const maxY = field.y + field.height;
-
-    //                 for (let n = 0; n < words.length; n++) {
-    //                     const testLine = line + words[n] + ' ';
-    //                     const metrics = ctx.measureText(testLine);
-    //                     const testWidth = metrics.width;
-    //                     if (testWidth > maxWidth && n > 0) {
-    //                         // Check if next line fits vertically
-    //                         if (y + lineHeight + lineHeight > maxY) {
-    //                             while (ctx.measureText(line + '...').width > maxWidth && line.length > 0) {
-    //                                 line = line.slice(0, -1);
-    //                             }
-    //                             ctx.fillText(line + '...', field.x + 5, y);
-    //                             line = '';
-    //                             break;
-    //                         }
-
-    //                         ctx.fillText(line, field.x + 5, y);
-    //                         line = words[n] + ' ';
-    //                         y += lineHeight;
-    //                     }
-    //                     else {
-    //                         line = testLine;
-    //                     }
-    //                 }
-    //                 if (line.length > 0 && y + lineHeight <= maxY) {
-    //                     ctx.fillText(line, field.x + 5, y);
-    //                 }
-    //             });
-
-    //             canvas.toBlob((blob) => {
-    //                 if (!blob) return;
-    //                 const url = URL.createObjectURL(blob);
-    //                 const a = document.createElement('a');
-    //                 a.href = url;
-    //                 a.download = `${uploadedFile.name}_filled.png`;
-    //                 document.body.appendChild(a);
-    //                 a.click();
-    //                 document.body.removeChild(a);
-    //                 URL.revokeObjectURL(url);
-    //                 showSuccessNotification('Document generated!');
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.error('Error generating:', error);
-    //         alert('Error generating document');
-    //     }
-    // };
-
-
-
     const renderFileContent = () => {
         if (pdfPages.length > 0) {
             return (
-                <div className="overflow-visible">
+                <div className="overflow-visible" >
                     {pdfPages.map((page, index) => (
                         <div
                             key={index}
@@ -882,33 +706,16 @@ export default function TemplateMapper() {
                                 >
                                     <div className={`placed-field-content ${selectedField === field.id ? 'selected' : ''} 
                     ${field.shape === 'pill' ? 'rounded-full' : field.shape === 'rectangle' ? 'rounded-none' : 'rounded-lg'}
-                  `}>
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: '-20px',
-                                            left: '0',
-                                            background: '#3b82f6',
-                                            color: 'white',
-                                            padding: '2px 6px',
-                                            borderRadius: '4px',
-                                            fontSize: '10px',
-                                            fontWeight: 'bold',
-                                            pointerEvents: 'none',
-                                            whiteSpace: 'nowrap',
-                                            zIndex: 100
-                                        }}>
-                                            Pg {field.pageIndex + 1} | {field.label || field.name || field.type}
-                                        </div>
-
-                                        <div className="placed-field-value" style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+                  `} style={{ overflow: 'hidden', height: '100%', boxSizing: 'border-box' }}>
+                                        <div className="placed-field-value" style={{ height: (field.type === 'Table' || field.type === 'Timesheet') ? '100%' : '22px', display: 'flex', alignItems: (field.type === 'Table' || field.type === 'Timesheet') ? 'flex-start' : 'center', overflow: 'hidden', boxSizing: 'border-box' }}>
                                             {(field.type === 'Table' || field.type === 'Timesheet') && field.tableData ? (
-                                                <div className="w-full h-full overflow-hidden text-xs bg-white bg-opacity-90 p-1">
-                                                    <table className="w-full border-collapse border border-gray-400">
+                                                <div style={{ width: '100%', height: '100%', overflow: 'hidden', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '2px', boxSizing: 'border-box' }}>
+                                                    <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #999', tableLayout: 'fixed', boxSizing: 'border-box' }}>
                                                         <thead>
-                                                            <tr className="bg-gray-100">
+                                                            <tr style={{ backgroundColor: '#f1f5f9' }}>
                                                                 {field.tableData.columns.map((col: any, i: number) => (
-                                                                    <th key={i} className="border border-gray-300 px-1 py-0.5 text-left font-bold text-gray-700" style={{ fontSize: `${field.fontSize * 0.8}px`, width: `${100 / (field.tableData?.columns.length || 1)}%` }}>
-                                                                        <div className="truncate w-full">{col.headername}</div>
+                                                                    <th key={i} style={{ border: '1px solid #cbd5e1', padding: '2px 4px', textAlign: 'left', fontWeight: 'bold', fontSize: `${(field.fontSize * 0.8 * zoom) / 100}px`, width: `${100 / (field.tableData?.columns.length || 1)}%`, boxSizing: 'border-box' }}>
+                                                                        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{col.headername}</div>
                                                                     </th>
                                                                 ))}
                                                             </tr>
@@ -917,11 +724,11 @@ export default function TemplateMapper() {
                                                             {field.tableData.rows.map((row: any, i: number) => (
                                                                 <tr key={i}>
                                                                     {field.tableData!.columns.map((col: any, j: number) => (
-                                                                        <td key={j} className="border border-gray-300 px-1 py-0.5 border-b border-gray-200" style={{ fontSize: `${field.fontSize * 0.8}px` }}>
+                                                                        <td key={j} style={{ border: '1px solid #cbd5e1', padding: '2px 4px', fontSize: `${(field.fontSize * 0.8 * zoom) / 100}px`, boxSizing: 'border-box' }}>
                                                                             <div style={{
                                                                                 display: '-webkit-box',
                                                                                 WebkitBoxOrient: 'vertical',
-                                                                                WebkitLineClamp: 2, // Tables typically have smaller cells, allow 2 lines
+                                                                                WebkitLineClamp: 2,
                                                                                 overflow: 'hidden',
                                                                                 lineHeight: '1.2'
                                                                             }}>
@@ -935,7 +742,7 @@ export default function TemplateMapper() {
                                                     </table>
                                                 </div>
                                             ) : (
-                                                <div className="font-bold leading-tight break-words p-1 h-full w-full overflow-hidden"
+                                                <div className="leading-tight break-words p-1 h-full w-full overflow-hidden"
                                                     style={{
                                                         fontSize: `${(field.fontSize * zoom) / 100}px`,
                                                         fontFamily: field.fontFamily || 'Arial',
@@ -956,63 +763,21 @@ export default function TemplateMapper() {
                                     {/* Controls: Visible on Selection OR Hover */}
                                     <div className={`absolute pointer-events-none ${selectedField === field.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-200`} style={{ top: 0, left: 0, width: '100%', height: '100%' }}>
                                         {/* Resize Handles (8-point) */}
-
-                                        {/* NW (Top-Left) */}
-                                        <div style={{ position: 'absolute', top: '-16px', left: '-16px', width: '32px', height: '32px', zIndex: 999 }}
-                                            className="bg-transparent pointer-events-auto cursor-nwse-resize flex items-center justify-center"
-                                            onMouseDown={(e) => startResizing(e, field.id, field, 'nw')}>
-                                            <div className="w-4 h-4 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-125 transition-transform" />
-                                        </div>
-
-                                        {/* N (Top) */}
-                                        <div style={{ position: 'absolute', top: '-16px', left: '50%', transform: 'translateX(-50%)', width: '64px', height: '32px', zIndex: 999 }}
-                                            className="bg-transparent pointer-events-auto cursor-ns-resize flex items-center justify-center"
-                                            onMouseDown={(e) => startResizing(e, field.id, field, 'n')}>
-                                            <div className="w-8 h-3 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-110 transition-transform" />
-                                        </div>
-
-                                        {/* NE (Top-Right) */}
-                                        <div style={{ position: 'absolute', top: '-16px', right: '-16px', width: '32px', height: '32px', zIndex: 999 }}
-                                            className="bg-transparent pointer-events-auto cursor-nesw-resize flex items-center justify-center"
-                                            onMouseDown={(e) => startResizing(e, field.id, field, 'ne')}>
-                                            <div className="w-4 h-4 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-125 transition-transform" />
-                                        </div>
-
-                                        {/* E (Right) */}
-                                        <div style={{ position: 'absolute', top: '50%', right: '-16px', transform: 'translateY(-50%)', width: '32px', height: '64px', zIndex: 999 }}
-                                            className="bg-transparent pointer-events-auto cursor-ew-resize flex items-center justify-center"
-                                            onMouseDown={(e) => startResizing(e, field.id, field, 'e')}>
-                                            <div className="w-3 h-8 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-110 transition-transform" />
-                                        </div>
-
                                         {/* SE (Bottom-Right) */}
-                                        <div style={{ position: 'absolute', bottom: '-16px', right: '-16px', width: '32px', height: '32px', zIndex: 999 }}
+                                        <div style={{ position: 'absolute', bottom: '-6px', right: '-6px', width: '12px', height: '12px', zIndex: 1001 }}
                                             className="bg-transparent pointer-events-auto cursor-nwse-resize flex items-center justify-center"
+                                            title="Resize"
                                             onMouseDown={(e) => startResizing(e, field.id, field, 'se')}>
-                                            <div className="w-4 h-4 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-125 transition-transform" />
-                                        </div>
+                                            <div style={{
+                                                width: '10px',
+                                                height: '10px',
 
-                                        {/* S (Bottom) */}
-                                        <div style={{ position: 'absolute', bottom: '-16px', left: '50%', transform: 'translateX(-50%)', width: '64px', height: '32px', zIndex: 999 }}
-                                            className="bg-transparent pointer-events-auto cursor-ns-resize flex items-center justify-center"
-                                            onMouseDown={(e) => startResizing(e, field.id, field, 's')}>
-                                            <div className="w-8 h-3 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-110 transition-transform" />
+                                                backgroundColor: '#000',
+                                                border: '2px solid #fff',
+                                                borderRadius: '50%',
+                                                boxShadow: '0 0 3px rgba(0,0,0,0.5)'
+                                            }} />
                                         </div>
-
-                                        {/* SW (Bottom-Left) */}
-                                        <div style={{ position: 'absolute', bottom: '-16px', left: '-16px', width: '32px', height: '32px', zIndex: 999 }}
-                                            className="bg-transparent pointer-events-auto cursor-nesw-resize flex items-center justify-center"
-                                            onMouseDown={(e) => startResizing(e, field.id, field, 'sw')}>
-                                            <div className="w-4 h-4 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-125 transition-transform" />
-                                        </div>
-
-                                        {/* W (Left) */}
-                                        <div style={{ position: 'absolute', top: '50%', left: '-16px', transform: 'translateY(-50%)', width: '32px', height: '64px', zIndex: 999 }}
-                                            className="bg-transparent pointer-events-auto cursor-ew-resize flex items-center justify-center"
-                                            onMouseDown={(e) => startResizing(e, field.id, field, 'w')}>
-                                            <div className="w-3 h-8 bg-blue-600 border-2 border-white rounded-full shadow-md hover:scale-110 transition-transform" />
-                                        </div>
-
                                         {/* Delete Button */}
                                         <button
                                             onClick={(e) => { e.stopPropagation(); removeField(field.id); }}
@@ -1067,171 +832,164 @@ export default function TemplateMapper() {
                 <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
                     {/* <SideBar activeMenu" /> */}
                     <div className="Table" style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, width: '100%' }}>
-                        <div className='d-flex justify-content-between ' style={{ margin: '10px 14px', flexShrink: 0 }}>
-                            <div className="d-flex align-items-center">
-                                <h1 className="white-title">
-                                    <FileText />
+                        <div className='d-flex justify-content-between align-items-center' style={{ margin: '0', flexShrink: 0, width: '100%', background: '#0b1120', color: 'white', borderBottom: '1px solid #1e293b' }}>
+                            {/* Left Section: Title and Main Controls */}
+                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '12px 20px', gap: '20px' }}>
+                                <h1 className="white-title" style={{ margin: 0, fontSize: '1.25rem', fontWeight: 500, letterSpacing: '0.5px' }}>
                                     Template Mapper
                                 </h1>
                                 <select
                                     className="child-dropdown"
+                                    style={{ backgroundColor: '#1e293b', color: 'white', border: '1px solid #334155', borderRadius: '6px', padding: '6px 12px', fontSize: '14px' }}
                                     value={selectedApp}
                                     onChange={(e) => { console.log(e.target.value); setSelectedApp(e.target.value) }}>
                                     <option value="" disabled>Select a form</option>
                                     {formmasteritems.map((data: { AppName: any; AppCode: any }, index: number) => (
-                                        <option key={index} value={data.AppCode}>
+                                        <option key={index} value={data.AppCode} style={{ background: '#0b1120' }}>
                                             {data.AppName}
                                         </option>
                                     ))}
                                 </select>
                                 {uploadedFile && (
-                                    <div className="zoom-controls">
-                                        <button onClick={() => setZoom(z => Math.max(50, z - 10))} className="zoom-btn"><ZoomOut /></button>
-                                        <span className="zoom-value">{zoom}%</span>
-                                        <button onClick={() => setZoom(z => Math.min(200, z + 10))} className="zoom-btn"><ZoomIn /></button>
+                                    <div className="zoom-controls" style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#1e293b', padding: '4px 12px', borderRadius: '6px' }}>
+                                        <button onClick={() => setZoom(z => Math.max(50, z - 10))} className="zoom-btn" style={{ color: '#94a3b8', border: 'none', background: 'transparent', cursor: 'pointer' }}><ZoomOut size={18} /></button>
+                                        <span className="zoom-value" style={{ fontSize: '14px', fontWeight: 400, minWidth: '45px', textAlign: 'center' }}>{zoom}%</span>
+                                        <button onClick={() => setZoom(z => Math.min(200, z + 10))} className="zoom-btn" style={{ color: '#94a3b8' }}><ZoomIn size={18} /></button>
                                     </div>
                                 )}
+
+                                <div style={{ flex: 1 }}></div>
+
+                                <div className="template-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                    {placedFields.length > 0 && (
+                                        <>
+                                            <button onClick={saveToSystem} className="newblackcolorbtn" style={{ background: '#1e293b', border: '1px solid #334155', padding: '8px 16px', borderRadius: '6px', fontSize: '14px' }}>
+                                                Save Template
+                                            </button>
+                                            <button onClick={clearTemplate} className="newblackcolorbtn" style={{ background: '#1e293b', border: '1px solid #334155', padding: '8px 16px', borderRadius: '6px', fontSize: '14px' }}>
+                                                Clear
+                                            </button>
+                                        </>
+                                    )}
+                                    {/* {selectedApp && (
+                                        <label className="upload-label" style={{ margin: 0, background: '#0ea5e9', color: 'white', padding: '8px 16px', borderRadius: '6px', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}>
+                                            {uploadedFile ? 'Change File' : 'Upload Template'}
+                                            <input ref={fileInputRef} type="file" onChange={handleFileUpload} accept=".pdf,.doc,.docx" className="hidden" />
+                                        </label>
+
+                                    )} */}
+                                    {!selectedApp && (
+                                        <Toast ref={toast} />)}
+                                </div>
                             </div>
 
-                            <div className="template-header-actions">
-                                {placedFields.length > 0 && (
-                                    <>
-                                        <button onClick={saveToSystem} className="newblackcolorbtn">
-                                            <Database /> Save Template
-                                        </button>
-                                        {/* <button onClick={generateFilledDocument} className="btn btn-success">
-                                            <FileText /> Preview PDF
-                                        </button> */}
-                                        <button onClick={clearTemplate} className="newblackcolorbtn">
-                                            <X /> Clear
-                                        </button>
-                                    </>
-                                )}
-                                {selectedApp && (
-                                    <label className="upload-label">
-                                        <Upload />
-                                        {uploadedFile ? 'Change File' : 'Upload Template'}
-                                        <input ref={fileInputRef} type="file" onChange={handleFileUpload} accept=".pdf,.doc,.docx" className="hidden" />
-                                    </label>
-                                )}
+                            {/* Right Section: Form Fields Title (Matches Sidebar Width) */}
+                            <div style={{ width: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0b1120', borderLeft: '1px solid #1e293b', alignSelf: 'stretch' }}>
+                                <h2 style={{ margin: 0, fontSize: '1.25rem', color: 'white', fontWeight: 500, letterSpacing: '0.5px' }}>Form Fields</h2>
                             </div>
                         </div>
 
-                        {/* Canvas Area */}
-                        <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
-                            <div className="template-canvas" style={{ flex: 1, overflow: 'auto', position: 'relative' }}>
-                                {selectedField && (
-                                    (() => {
-                                        const field = placedFields.find(f => f.id === selectedField);
-                                        if (!field) return null;
-                                        return (
-                                            <div className='d-flex justify-content-between ' style={{ display: 'flex', flexDirection: 'row', width: '100%', backgroundColor: 'white' }}>
-                                                {/* Positioned relative to viewport at bottom center */}
-                                                <div className="flex flex-col gap-1" style={{ width: '30%' }}>
-                                                    <label className="text-xs font-semibold text-gray-500 uppercase">Font Size</label>
-                                                    <input
-                                                        style={{ width: '30%' }}
-                                                        type="number"
-                                                        value={field.fontSize}
-                                                        onChange={(e) => updateField(field.id, { fontSize: parseInt(e.target.value) })}
-                                                        className="w-16 border rounded px-2 py-1 text-sm text-center"
-                                                    />
-                                                </div>
+                        <div style={{ display: 'flex', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+                            {/* Canvas Area */}
+                            <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>
+                                <div className="template-canvas" style={{ flex: 1, overflow: 'auto', position: 'relative', backgroundColor: 'black' }}>
+                                    {selectedField && (
+                                        (() => {
+                                            const field = placedFields.find(f => f.id === selectedField);
+                                            if (!field) return null;
+                                            return (
+                                                <div className='d-flex justify-content-between ' style={{ display: 'flex', flexDirection: 'row', width: '100%', backgroundColor: 'white', position: 'sticky', top: 0, zIndex: 1100 }}>
+                                                    {/* Positioned relative to viewport at bottom center */}
+                                                    <div className="flex flex-col gap-1" style={{ width: '30%' }}>
+                                                        <label className="text-xs font-medium text-gray-500 uppercase">Font Size</label>
+                                                        <input
+                                                            style={{ width: '30%' }}
+                                                            type="number"
+                                                            value={field.fontSize}
+                                                            onChange={(e) => updateField(field.id, { fontSize: parseInt(e.target.value) })}
+                                                            className="w-16 border rounded px-2 py-1 text-sm text-center"
+                                                        />
+                                                    </div>
 
-                                                <div className="flex flex-col gap-1" style={{ width: '30%' }} >
-                                                    <label className="text-xs font-semibold text-gray-500 uppercase">Font Family</label>
-                                                    <select
-                                                        value={field.fontFamily}
-                                                        style={{ width: '45%', backgroundColor: 'black', color: 'white' }}
-                                                        onChange={(e) => updateField(field.id, { fontFamily: e.target.value })}
-                                                        className="border rounded px-2 py-1 text-sm w-32"
+                                                    <div className="flex flex-col gap-1" style={{ width: '30%' }} >
+                                                        <label className="text-xs font-medium text-gray-500 uppercase">Font Family</label>
+                                                        <select
+                                                            value={field.fontFamily}
+                                                            style={{ width: '45%', backgroundColor: 'black', color: 'white' }}
+                                                            onChange={(e) => updateField(field.id, { fontFamily: e.target.value })}
+                                                            className="border rounded px-2 py-1 text-sm w-32"
+                                                        >
+                                                            <option value="Arial">Arial</option>
+                                                            <option value="Times New Roman">Times New Roman</option>
+                                                            <option value="Courier New">Courier New</option>
+                                                            <option value="Verdana">Verdana</option>
+                                                            <option value="Georgia">Georgia</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div className="flex flex-col gap-1" style={{ width: '30%' }}>
+                                                        <label className="text-xs font-medium text-gray-500 uppercase">Width (px)</label>
+                                                        <input
+                                                            style={{ width: '30%' }}
+                                                            type="number"
+                                                            value={Math.round(field.width)}
+                                                            onChange={(e) => updateField(field.id, { width: parseInt(e.target.value) })}
+                                                            className="w-20 border rounded px-2 py-1 text-sm text-center"
+                                                        />
+                                                    </div>
+
+                                                    <div className="flex flex-col gap-1" style={{ width: '30%' }}>
+                                                        <label className="text-xs font-medium text-gray-500 uppercase">Height (px)</label>
+                                                        <input
+                                                            style={{ width: '30%' }}
+                                                            type="number"
+                                                            value={Math.round(field.height)}
+                                                            onChange={(e) => updateField(field.id, { height: parseInt(e.target.value) })}
+                                                            className="w-20 border rounded px-2 py-1 text-sm text-center"
+                                                        />
+                                                    </div>
+
+                                                    <div className="h-8 w-px bg-gray-300 mx-2"></div>
+
+                                                    <button
+                                                        onClick={() => setSelectedField(null)}
+                                                        className="newblackcolorbtn"
                                                     >
-                                                        <option value="Arial">Arial</option>
-                                                        <option value="Times New Roman">Times New Roman</option>
-                                                        <option value="Courier New">Courier New</option>
-                                                        <option value="Verdana">Verdana</option>
-                                                        <option value="Georgia">Georgia</option>
-                                                    </select>
+                                                        Done
+                                                    </button>
                                                 </div>
-
-                                                {/* <div className="flex flex-col gap-1" style={{width: '30%'}}>
-                                                    <label className="text-xs font-semibold text-gray-500 uppercase">Width (Chars)</label>
-                                                    <input
-                                                        type="number"
-                                                        style={{width: '30%'}}
-                                                        value={field.widthChar || 50}
-                                                        onChange={(e) => updateField(field.id, { widthChar: parseInt(e.target.value) })}
-                                                        className="w-20 border rounded px-2 py-1 text-sm text-center"
-                                                        min="1"
-                                                    />
-                                                </div> */}
-
-                                                <div className="flex flex-col gap-1" style={{ width: '30%' }}>
-                                                    <label className="text-xs font-semibold text-gray-500 uppercase">Width (px)</label>
-                                                    <input
-                                                        style={{ width: '30%' }}
-                                                        type="number"
-                                                        value={Math.round(field.width)}
-                                                        onChange={(e) => updateField(field.id, { width: parseInt(e.target.value) })}
-                                                        className="w-20 border rounded px-2 py-1 text-sm text-center"
-                                                    />
-                                                </div>
-
-                                                <div className="flex flex-col gap-1" style={{ width: '30%' }}>
-                                                    <label className="text-xs font-semibold text-gray-500 uppercase">Height (px)</label>
-                                                    <input
-                                                        style={{ width: '30%' }}
-                                                        type="number"
-                                                        value={Math.round(field.height)}
-                                                        onChange={(e) => updateField(field.id, { height: parseInt(e.target.value) })}
-                                                        className="w-20 border rounded px-2 py-1 text-sm text-center"
-                                                    />
-                                                </div>
-
-                                                <div className="h-8 w-px bg-gray-300 mx-2"></div>
-
-                                                <button
-                                                    onClick={() => setSelectedField(null)}
-                                                    className="newblackcolorbtn"
-                                                >
-                                                    Done
-                                                </button>
+                                            );
+                                        })()
+                                    )}
+                                    {!uploadedFile ? (
+                                        <div className="upload-placeholder">
+                                            <div className="upload-placeholder-content"
+                                                onClick={() =>
+                                                    selectedApp ? (fileInputRef.current?.click()) :
+                                                        (toast.current?.show({ severity: 'info', summary: 'Select a Form First', detail: 'Please select a form from the dropdown to enable template upload.', life: 3000 }))
+                                                }
+                                            >
+                                                <Upload style={{ color: '#0ea5e9', cursor: 'pointer' }} />
+                                                <h3>Select an App</h3>
+                                                <input ref={fileInputRef} type="file" onChange={handleFileUpload} accept=".pdf" className="hidden" style={{ width: '0%', height: '0%' }} />
+                                                <h3>Upload Template</h3>
+                                                <p>PDF document is only supported</p>
                                             </div>
-                                        );
-                                    })()
-                                )}
-                                {!uploadedFile ? (
-                                    <div className="upload-placeholder">
-                                        <div className="upload-placeholder-content">
-                                            <Upload />
-                                            <h3>Upload Template</h3>
-                                            <p>PDF document is only supported</p>
                                         </div>
-                                    </div>
-                                ) : (
-                                    <div className="template-content" style={{ padding: 0, margin: 0 }}>
-                                        <div className="template-wrapper" style={{ padding: 0, margin: 0 }}>
-                                            {renderFileContent()}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-
-                            {/* Right Panel (FieldSidebar) */}
-                            <div className="fields-panel" style={{ background: 'linear-gradient(to bottom, #1c02aaff, #030e7fff)', flexShrink: 0 }}>
-                                <div className="fields-panel-header">
-                                    <div className="fields-panel-header-content">
-                                        <Database />
-                                        <h2>Form Fields</h2>
-                                    </div>
-                                    {selectedApp ? (
-                                        <p>Drag and drop onto template</p>
                                     ) : (
-                                        <p className="text-amber-500 font-semibold">Please select a form first</p>
+                                        <div className="template-content" style={{ padding: 0, margin: 0 }}>
+                                            <div className="template-wrapper" style={{ padding: 0, margin: 0 }}>
+                                                {renderFileContent()}
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
-                                <div className="flex-1 overflow-y-auto" style={{ backgroundColor: '#e5e7eb' }}>
+
+
+                            </div>
+                            {/* Right Panel (FieldSidebar) */}
+                            <div className="fields-panel" style={{ width: '300px', display: 'flex', flexDirection: 'column', borderLeft: '1px solid #1e293b', backgroundColor: '#0b1120' }}>
+                                <div className="flex-1 overflow-y-auto" style={{ backgroundColor: '#0b1120' }}>
                                     {selectedApp && (
                                         <FieldSidebar
                                             fields={sidebarFields}
@@ -1241,50 +999,50 @@ export default function TemplateMapper() {
                                     )}
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
+
+                {/* Field Properties Panel - Floating when selected */}
+
+                {showNameDialog && (
+                    <div className="custom-dark-modal-overlay">
+                        <div className="custom-dark-modal">
+                            <h2 className='addsteptitle' style={{ fontSize: '1rem' }}>
+                                Save the Template, for "{formmasteritems.find(item => item.AppCode === selectedApp)?.AppName || 'Unknown'}":
+                            </h2>
+                            <div className="form-group" style={{ padding: '0px 20px' }}>
+                                <div className="form-control-group">
+                                    <p className="text-sm text-gray-600 mb-4">Give your template a recognizable name.</p>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        style={{ backgroundColor: 'black', color: 'white' }}
+                                        placeholder="e.g., Q3 Invoice Template"
+                                        value={templateName}
+                                        onChange={(e) => setTemplateName(e.target.value)}
+                                        autoFocus
+                                    />
+                                </div>
+                            </div>
+                            <div className="modal-buttons" style={{ padding: '10px 20px 20px 20px' }}>
+                                <div style={{ width: '50%' }} className='modal-buttons'>
+                                    <button
+                                        onClick={handleConfirmSave}
+                                        className="newlogocolorbtn">
+                                        Save</button>
+                                    <button
+                                        onClick={() => setShowNameDialog(false)}
+                                        className="newblackcolorbtn">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
-
-            {/* Field Properties Panel - Floating when selected */}
-
-            {showNameDialog && (
-                <div className="custom-dark-modal-overlay">
-                    <div className="custom-dark-modal">
-                        <h2 className='addsteptitle' style={{ fontSize: '1rem' }}>
-                            Save the Template, for "{formmasteritems.find(item => item.AppCode === selectedApp)?.AppName || 'Unknown'}":
-                        </h2>
-                        <div className="form-group" style={{ padding: '0px 20px' }}>
-                            <div className="form-control-group">
-                                <p className="text-sm text-gray-600 mb-4">Give your template a recognizable name.</p>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    style={{ backgroundColor: 'black', color: 'white' }}
-                                    placeholder="e.g., Q3 Invoice Template"
-                                    value={templateName}
-                                    onChange={(e) => setTemplateName(e.target.value)}
-                                    autoFocus
-                                />
-                            </div>
-                        </div>
-                        <div className="modal-buttons" style={{ padding: '10px 20px 20px 20px' }}>
-                            <div style={{ width: '50%' }} className='modal-buttons'>
-                                <button
-                                    onClick={handleConfirmSave}
-                                    className="newlogocolorbtn">
-                                    Save</button>
-                                <button
-                                    onClick={() => setShowNameDialog(false)}
-                                    className="newblackcolorbtn">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
         </div>
     );
 }

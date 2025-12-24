@@ -10,7 +10,7 @@ interface FieldSidebarProps {
 
 export default function FieldSidebar({ fields, onDragStart, onDragEnd }: FieldSidebarProps) {
     return (
-        <div className="fields-list" style={{ backgroundColor: 'linear-gradient(to bottom, #1c02aaff, #030e7fff)' }}>
+        <div className="fields-list" style={{ background: '#0b1120' }}>
             {fields.map(field => (
                 <div
                     key={field.id}

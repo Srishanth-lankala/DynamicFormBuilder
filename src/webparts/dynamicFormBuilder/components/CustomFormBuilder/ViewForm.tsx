@@ -238,8 +238,9 @@ const ViewForm: React.FC<IDynamicFormBuilderProps> = ({ context }) => {
                 setIsGeneratingPDF(false);
                 return;
             }
+
             // Prepare Record Data
-            const recordData: Record<string, any> = {
+            let recordData: Record<string, any> = {
                 ...formData.reduce((acc, curr) => {
                     const updated = { ...acc };
                     if (curr.id) updated[curr.id] = curr.value;
@@ -260,10 +261,59 @@ const ViewForm: React.FC<IDynamicFormBuilderProps> = ({ context }) => {
                 }, {} as Record<string, any>)
             };
 
+            let mergedSchema = [...(formJSON || [])];
+
+            // If it's a parent form, merge data from all child transactions
+            if (IsParentForm) {
+                console.log(`[PdfGenerator] Parent form detected. Merging data from ${ChildtransactionItems.length} child transactions.`);
+
+                // Merge Schemas first so we can resolve references for child fields
+                if (ChildFormDetails && ChildFormDetails.length > 0) {
+                    ChildFormDetails.forEach(childForm => {
+                        try {
+                            const schema = typeof childForm.FormJSON === 'string' ? JSON.parse(childForm.FormJSON) : childForm.FormJSON;
+                            if (Array.isArray(schema)) {
+                                mergedSchema = [...mergedSchema, ...schema];
+                            }
+                        } catch (e) {
+                            console.error("Error merging child schema:", e);
+                        }
+                    });
+                }
+
+                // Merge Answers
+                if (ChildtransactionItems && ChildtransactionItems.length > 0) {
+                    ChildtransactionItems.forEach(child => {
+                        try {
+                            const childFormData = JSON.parse(child.FormData || '[]');
+                            const childTableData = JSON.parse(child.TableJSON || '[]');
+                            const childTimesheetData = JSON.parse(child.TimeSheetJSON || '[]');
+
+                            childFormData.forEach((curr: any) => {
+                                if (curr.id) recordData[curr.id] = curr.value;
+                                if (curr.name) recordData[curr.name] = curr.value;
+                                if (curr.field_name) recordData[curr.field_name] = curr.value;
+                                if (curr.custom_name) recordData[curr.custom_name] = curr.value;
+                            });
+
+                            childTableData.forEach((curr: any) => {
+                                if (curr.id) recordData[curr.id] = curr;
+                            });
+
+                            childTimesheetData.forEach((curr: any) => {
+                                if (curr.id) recordData[curr.id] = curr;
+                            });
+                        } catch (e) {
+                            console.error('Error merging child transaction data:', e);
+                        }
+                    });
+                }
+            }
+
             await PdfGeneratorService.generatePDF(
                 templateToUse,
                 recordData,
-                formJSON || []
+                mergedSchema
             );
 
             alert('PDF Document Generated Successfully!');

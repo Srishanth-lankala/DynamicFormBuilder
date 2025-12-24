@@ -37,11 +37,15 @@ export const mapSchemaToFields = (schema: SchemaItem[]): MappedField[] => {
     debugger;
     return schema
         .filter(item => {
-            const excludedElements = ['Header', 'LineBreak', 'ThreeColumnRow', 'TwoColumnRow', 'FileUpload'];
+            const excludedElements = ['Header', 'LineBreak', 'ThreeColumnRow', 'TwoColumnRow', 'FiveColumnRow', 'FourColumnRow', 'SixColumnRow', 'FileUpload'];
 
-            // Allow Table (Label with content='Table') and Timesheet (Download with content='Timesheet')
-            if (item.element === 'Label' && item.content === 'Table') return true;
-            if (item.element === 'Download' && item.content === 'Timesheet') return true;
+            // Allow Table (Label/Download with content='Table') and Timesheet (Download/Label with content='Timesheet')
+            const isTable = (item.element === 'Label' || item.element === 'Download' || item.element === 'Table') &&
+                (item.text === 'Table' || item.content === 'Table');
+            const isTimesheet = (item.element === 'Download' || item.element === 'Label' || item.element === 'Timesheet') &&
+                (item.text === 'Timesheet' || item.content === 'Timesheet');
+
+            if (isTable || isTimesheet) return true;
 
             // Also excluding layout containers that don't have direct values usually
             if (item.element === 'Label' || item.element === 'Download') return false;
@@ -50,8 +54,13 @@ export const mapSchemaToFields = (schema: SchemaItem[]): MappedField[] => {
         })
         .map(item => {
             let type = item.element;
-            if (item.element === 'Label' && item.content === 'Table') type = 'Table';
-            if (item.element === 'Download' && item.content === 'Timesheet') type = 'Timesheet';
+            const isTable = (item.element === 'Label' || item.element === 'Download' || item.element === 'Table') &&
+                (item.text === 'Table' || item.content === 'Table');
+            const isTimesheet = (item.element === 'Download' || item.element === 'Label' || item.element === 'Timesheet') &&
+                (item.content === 'Timesheet' || item.text === 'Timesheet');
+
+            if (isTable) type = 'Table';
+            if (isTimesheet) type = 'Timesheet';
 
             const rawLabel = item.label || item.text || item.name || 'Untitled Field';
             // Strip HTML tags from label

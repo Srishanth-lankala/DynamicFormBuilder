@@ -1470,7 +1470,7 @@ class CreateForm extends React.Component<IDynamicFormBuilderProps & { navigate: 
                   onLoad={this.sendDataToIframe}
                 />
               </div>
-            </section>
+            </section>  
           </div>
         </div >
       );
