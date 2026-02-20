@@ -25,6 +25,8 @@ export interface PlacedField {
 }
 
 export const PdfGeneratorService = {
+
+    
     resolveReferenceValue(fieldId: string, value: string, formSchema: any[]) {
         if (!value || !formSchema) return value;
         const schemaField = formSchema.find(f => f.id === fieldId || f.field_name === fieldId || f.name === fieldId);
@@ -105,7 +107,7 @@ export const PdfGeneratorService = {
                 console.warn("[PdfGenerator] No background pages found in template mapping.");
             }
 
-            // 1. Identify mode and initialize main document
+            // 1. Identify mode and initialize main document 
             let mainDoc = pdfDocInstance;
             if (!mainDoc) {
                 mainDoc = await PDFDocument.create();

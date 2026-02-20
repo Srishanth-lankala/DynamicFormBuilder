@@ -221,6 +221,7 @@ const ViewForm: React.FC<IDynamicFormBuilderProps> = ({ context }) => {
 
 
     const handleGeneratePDF = async () => {
+        debugger;
         setIsGeneratingPDF(true);
         try {
             // Re-fetch templates to ensure we have the absolute latest mappings from SharePoint
